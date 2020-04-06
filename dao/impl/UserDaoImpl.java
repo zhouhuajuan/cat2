@@ -19,7 +19,6 @@ public class UserDaoImpl implements UserDao {
         try {
             Class.forName(driver).newInstance();
             con = DriverManager.getConnection(url, name, passwd);
-            preparedStatement = (PreparedStatement) con.createStatement();
 
         } catch (ClassNotFoundException e) {
             System.out.println("对不起，找不到这个Driver");
@@ -76,9 +75,12 @@ public class UserDaoImpl implements UserDao {
     //对比用户名和密码是否匹配
     public Boolean compare(String username, String password) {
         boolean m = false;
-        String sql = "select password from user where username=\"" + username + "\"";
+        String sql = "select password from user where username = ?";
         try {
-            res = preparedStatement.executeQuery(sql);
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,username);
+            ResultSet res = preparedStatement.executeQuery();
+
             if (res.next()) {
                 String pa = res.getString(1);
                 System.out.println(pa + " " + password);
