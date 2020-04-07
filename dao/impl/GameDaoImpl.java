@@ -1,12 +1,17 @@
 package com.zhj.event.dao.impl;
 
 import com.zhj.event.dao.GameDao;
-import com.zhj.event.view.Delete;
+import com.zhj.event.entity.Game;
 import com.zhj.event.view.HomePage2;
 import com.zhj.event.view.Revise;
+import example.entity.User;
+import example.util.DbUtil;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class GameDaoImpl implements GameDao {
     Connection con = null;
@@ -22,7 +27,6 @@ public class GameDaoImpl implements GameDao {
         try {
             Class.forName(driver).newInstance();
             con = DriverManager.getConnection(url, name, passwd);
-            preparedStatement = (PreparedStatement) con.createStatement();
 
         } catch (ClassNotFoundException e) {
             System.out.println("对不起，找不到这个Driver");
@@ -35,17 +39,13 @@ public class GameDaoImpl implements GameDao {
     }
 
     //添加赛事信息
-    public int insert1(String date, String against) throws SQLException {
-        if (date == null || date.trim().length() <= 0) {
-            JOptionPane.showMessageDialog(null, "添加赛事信息为空，请重新输入！");
-            return 0;
-        }
-
-        // 编写sql语句
-        String sql="select against from competition where against='"+against+"' ";
+    public boolean insert1(String date, String against) throws SQLException {
+        boolean judge = false;
+        String sql="select against from competition where against=?";
+        preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setString(1,against);
+        ResultSet rs=preparedStatement.executeQuery();
         String sql1 = "insert into competition(date ,against) values(\"" + date + "\",\"" + against + "\")";
-        // 执行sql语句
-        ResultSet rs=preparedStatement.executeQuery(sql);
         if(rs.next()) {
             JOptionPane.showMessageDialog(null, "对不起该赛事已存在！");
         }else {
@@ -54,21 +54,23 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.close();
             if (a == 1) {
                 JOptionPane.showMessageDialog(null, "添加成功！");
-               return 0;
+                judge = true;
             }
         }
-        return 0;
+        return judge;
     }
 
     //修改赛事信息
     public boolean update(String date, String against) throws SQLException {
         boolean judge = false;
-        String sql1 = "select date from competition where against =\"" + against +"\"";
-        ResultSet rs=preparedStatement.executeQuery(sql1);
+        String sql = "select date from competition where against =?";
+        preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setString(1,against);
+        ResultSet rs=preparedStatement.executeQuery();
         if (rs.next()) {
-            String sql = "update competition set date =\"" + date + "\"where against=\"" + against + "\"";
+            String sql1 = "update competition set date =\"" + date + "\"where against=\"" + against + "\"";
             try {
-                int a = preparedStatement.executeUpdate(sql);
+                int a = preparedStatement.executeUpdate(sql1);
                 if (a == 1) {
                     JOptionPane.showMessageDialog(null, "赛事修改成功！");
                     judge = true;
@@ -89,9 +91,12 @@ public class GameDaoImpl implements GameDao {
 
     //删除赛事信息
     public void delete(String date, String against) throws SQLException {
-        String sql="select against from competition where against=\""+against+"\"   ";
+        String sql="select against from competition where against=? ";
+        preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setString(1,against);
+        ResultSet rs=preparedStatement.executeQuery();
+
         String sql1 = "delete from competition where against=\"" + against + "\"";
-        ResultSet rs=preparedStatement.executeQuery(sql);
         if(rs.next()) {
             int a = preparedStatement.executeUpdate(sql1);
             con.close();
@@ -105,31 +110,28 @@ public class GameDaoImpl implements GameDao {
 
     }
 
-    //对比赛事信息是否匹配
-    public boolean compare2(String date, String against) {
-        boolean m = false;
-        String sql = "select date from competition where against=\"" + against + "\"";
+    public List<Game> queryAllUser(){
+        String sql="select * from competition";
+        List<Game> list=new ArrayList<Game>();
         try {
-            res = preparedStatement.executeQuery(sql);
-            if (res.next()) {
-                String pa = res.getString(1);
-                System.out.println(pa + " " + date);
-                if (pa.equals(date)) {
-                    m = true;
-                } else {
-                    JOptionPane.showMessageDialog(null, "日期错误！");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "赛事不存在！");
+            con= DbUtil.getConnection();
+            preparedStatement=con.prepareStatement(sql);
+            ResultSet rs=preparedStatement.executeQuery();
+            System.out.println(preparedStatement.toString());
+            while(rs.next()){
+                Game user=new Game();
+                user.setDate(rs.getString(1));
+                user.setAgainst(rs.getString(2));
+
+
+                list.add(user);
             }
-            res.close();
-            con.close();
-            preparedStatement.close();
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return m;
+        return list;
     }
 
 }

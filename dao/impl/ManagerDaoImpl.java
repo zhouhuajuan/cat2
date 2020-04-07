@@ -19,8 +19,6 @@ public class ManagerDaoImpl implements ManagerDao {
         try {
             Class.forName(driver).newInstance();
             con = DriverManager.getConnection(url, name, passwd);
-            preparedStatement = (PreparedStatement) con.createStatement();
-
         } catch (ClassNotFoundException e) {
             System.out.println("对不起，找不到这个Driver");
             e.printStackTrace();
@@ -34,9 +32,11 @@ public class ManagerDaoImpl implements ManagerDao {
     //对比管理员名和密码是否匹配
     public Boolean compare(String managername, String password) {
         boolean m = false;
-        String sql = "select password from manager where managername=\"" + managername + "\"";
+        String sql = "select password from manager where managername=?";
         try {
-            res = preparedStatement.executeQuery(sql);
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,managername);
+            ResultSet res = preparedStatement.executeQuery();
             if (res.next()) {
                 String pa = res.getString(1);
                 System.out.println(pa + " " + password);
@@ -51,7 +51,6 @@ public class ManagerDaoImpl implements ManagerDao {
             res.close();
             con.close();
             preparedStatement.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

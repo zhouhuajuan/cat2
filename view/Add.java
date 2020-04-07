@@ -58,15 +58,19 @@ public class Add implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Boolean result = null;
-        try {
-            result = gameController.add(datetext.getText(),againsttext.getText());
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        if(result){
-            closeThis();
-            new HomePage2();
+        if (datetext.getText() == null || datetext.getText().trim().length() <= 0) {
+            JOptionPane.showMessageDialog(null, "添加赛事信息为空，请重新输入！");
+        }else {
+            Boolean result = null;
+            try {
+                result = gameController.add(datetext.getText(), againsttext.getText());
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            if (result) {
+                closeThis();
+                new HomePage2();
+            }
         }
     }
 }

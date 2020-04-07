@@ -3,7 +3,7 @@ package com.zhj.event.dao;
 import java.sql.SQLException;
 
 public interface GameDao {
-    int insert1(String date, String against) throws SQLException;
+    boolean insert1(String date, String against) throws SQLException;
 
     boolean update(String date, String against) throws SQLException;
 

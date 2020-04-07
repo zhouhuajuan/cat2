@@ -12,7 +12,7 @@ public class UserDaoImpl implements UserDao {
     String driver = "com.mysql.jdbc.Driver";
     String url = "jdbc:mysql://localhost:3306/cat?useSSL=false&serverTimezone=Hongkong&characterEncoding=utf-8&autoReconnect=true";
     String name = "root";
-    String passwd =null;
+    String passwd = null;
     private Object String;
 
     public UserDaoImpl() {
@@ -33,14 +33,14 @@ public class UserDaoImpl implements UserDao {
 
     //用户注册功能的实现，添加数据
     public int insert(String username, String password) throws SQLException {
-        // 编写sql语句
-        String sql="select username from user where username='"+username+"' ";
+        String sql = "select username from user where username=? ";
+        preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setString(1, username);
+        ResultSet rs = preparedStatement.executeQuery();
         String sql1 = "insert into user(username,password) values(\"" + username + "\",\"" + password + "\")";
-        // 执行sql语句
-        ResultSet rs=preparedStatement.executeQuery(sql);
-        if(rs.next()) {
+        if (rs.next()) {
             JOptionPane.showMessageDialog(null, "对不起该用户已存在！");
-        }else {
+        } else {
             int a = preparedStatement.executeUpdate(sql1);
             con.close();
             preparedStatement.close();
@@ -51,8 +51,10 @@ public class UserDaoImpl implements UserDao {
 
     //对用户信息的修改实际上就是对密码的修改
     public Boolean update(String username, String password, String newpassword) throws SQLException {
-        String sql="select password from user where username='"+username+"' ";
-        ResultSet rs=preparedStatement.executeQuery(sql);
+        String sql = "select password from user where username=? ";
+        preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setString(1, username);
+        ResultSet rs = preparedStatement.executeQuery();
         if (rs.next()) {
             String sql1 = "update user set password=\"" + newpassword + "\"where username=\"" + username + "\"";
             try {
@@ -78,9 +80,8 @@ public class UserDaoImpl implements UserDao {
         String sql = "select password from user where username = ?";
         try {
             preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1,username);
+            preparedStatement.setString(1, username);
             ResultSet res = preparedStatement.executeQuery();
-
             if (res.next()) {
                 String pa = res.getString(1);
                 System.out.println(pa + " " + password);
@@ -95,7 +96,6 @@ public class UserDaoImpl implements UserDao {
             res.close();
             con.close();
             preparedStatement.close();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
