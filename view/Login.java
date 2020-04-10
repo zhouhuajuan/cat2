@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 public class Login extends JFrame implements ActionListener {
     private JPanel pan = new JPanel();  //创建JPanel面板对象
     private static JFrame jf = new JFrame();
+    private JLabel label = new JLabel("英雄联盟");
     private JLabel namelab = new JLabel("账    号");  //创建带文本“用户名”的标签
     private JLabel passlab = new JLabel("密    码");  //创建带文本“密    码”的标签
     private JTextField nametext = new JTextField();  //创建文本框（JTextField）对象
@@ -28,7 +29,6 @@ public class Login extends JFrame implements ActionListener {
     private ButtonGroup bg2 = new ButtonGroup();
     UserController userController = new UserController();
     ManagerController managerController = new ManagerController();
-
 
     String jrtext;
 
@@ -41,16 +41,18 @@ public class Login extends JFrame implements ActionListener {
     //定义无参构造方法
     public Login() {
         Font font = new Font("宋体", Font.BOLD, 12);  //创建Font对象，并初始化font的字体名，风格和大小
-        super.setTitle("欢迎登录英雄联盟赛事票务管理系统");
+        Font font1 = new Font("宋体", Font.BOLD, 16);
+        jf.setTitle("欢迎登录英雄联盟赛事票务管理系统");
         pan.setLayout(null);  //使该窗体（or面板）取消布局管理器设置
-        namelab.setBounds(70, 30, 60, 30);
-        nametext.setBounds(140, 30, 140, 30);
-        passlab.setBounds(70, 80, 60, 30);
-        passtext.setBounds(140, 80, 140, 30);
-        jr1.setBounds(90, 120, 60, 30);
-        jr2.setBounds(180, 120, 90, 30);
-        login.setBounds(80, 180, 90, 20);
-        register.setBounds(190, 180, 90, 20);
+        label.setBounds(150,25,90,20);
+        namelab.setBounds(70, 60, 60, 30);
+        nametext.setBounds(140, 60, 140, 30);
+        passlab.setBounds(70, 100, 60, 30);
+        passtext.setBounds(140, 100, 140, 30);
+        jr1.setBounds(100, 140, 60, 30);
+        jr2.setBounds(190, 140, 90, 30);
+        login.setBounds(80, 190, 90, 20);
+        register.setBounds(190, 190, 90, 20);
 
 
         pan.add(namelab);
@@ -61,6 +63,7 @@ public class Login extends JFrame implements ActionListener {
         pan.add(register);
         pan.add(jr1);
         pan.add(jr2);
+        pan.add(label);
 
         bg1.add(jr1);
         bg1.add(jr2);
@@ -69,6 +72,7 @@ public class Login extends JFrame implements ActionListener {
         register.setFont(font);
         jr1.setFont(font);
         jr2.setFont(font);
+        label.setFont(font1);
 
         login.addActionListener(this);
         register.addActionListener(this);

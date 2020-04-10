@@ -6,4 +6,5 @@ public interface GameService {
     boolean revise(String date, String against);
 
     void delete(String date, String against);
+
 }

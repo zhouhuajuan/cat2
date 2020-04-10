@@ -8,4 +8,5 @@ public interface GameDao {
     boolean update(String date, String against) throws SQLException;
 
     void delete(String date, String against) throws SQLException;
+
 }

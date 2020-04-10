@@ -4,13 +4,12 @@ import com.zhj.event.dao.GameDao;
 import com.zhj.event.entity.Game;
 import com.zhj.event.view.HomePage2;
 import com.zhj.event.view.Revise;
-import example.entity.User;
-import example.util.DbUtil;
 
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 
 public class GameDaoImpl implements GameDao {
@@ -91,42 +90,44 @@ public class GameDaoImpl implements GameDao {
 
     //删除赛事信息
     public void delete(String date, String against) throws SQLException {
-        String sql="select against from competition where against=? ";
+        String sql = "select against from competition where against=? ";
         preparedStatement = con.prepareStatement(sql);
-        preparedStatement.setString(1,against);
-        ResultSet rs=preparedStatement.executeQuery();
+        preparedStatement.setString(1, against);
+        ResultSet rs = preparedStatement.executeQuery();
 
         String sql1 = "delete from competition where against=\"" + against + "\"";
-        if(rs.next()) {
+        if (rs.next()) {
             int a = preparedStatement.executeUpdate(sql1);
             con.close();
             preparedStatement.close();
             if (a == 1) {
                 JOptionPane.showMessageDialog(null, "删除成功！");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "该赛事不存在！");
         }
 
     }
 
-    public List<Game> queryAllUser(){
+    //遍历数组获得数据库表的数据
+    public List<Game> queryAllGame(){
         String sql="select * from competition";
         List<Game> list=new ArrayList<Game>();
         try {
-            con= DbUtil.getConnection();
             preparedStatement=con.prepareStatement(sql);
             ResultSet rs=preparedStatement.executeQuery();
             System.out.println(preparedStatement.toString());
             while(rs.next()){
-                Game user=new Game();
-                user.setDate(rs.getString(1));
-                user.setAgainst(rs.getString(2));
+                Game game=new Game();
+                game.setDate(rs.getString(1));
+                game.setAgainst(rs.getString(2));
 
 
-                list.add(user);
+                list.add(game);
             }
-
+            rs.close();
+            con.close();
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -134,4 +135,29 @@ public class GameDaoImpl implements GameDao {
         return list;
     }
 
+    /*//通过模糊查询搜索赛事信息，获取部分数据库表的数据
+    public List<Game> queryAnyGame(String text){
+        String sql="select * from competition where against like \"" + text + "\"";
+        List<Game> list=new ArrayList<Game>();
+        try {
+            preparedStatement=con.prepareStatement(sql);
+            ResultSet rs=preparedStatement.executeQuery();
+            System.out.println(preparedStatement.toString());
+            while(rs.next()){
+                Game game=new Game();
+                game.setDate(rs.getString(1));
+                game.setAgainst(rs.getString(2));
+
+
+                list.add(game);
+            }
+            rs.close();
+            con.close();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }*/
 }
