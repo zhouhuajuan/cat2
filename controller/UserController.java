@@ -4,19 +4,51 @@ import com.zhj.event.service.UserService;
 import com.zhj.event.service.impl.UserServiceImpl;
 
 public class UserController {
+    //实例化一个UserService对象
     UserService userService = new UserServiceImpl();
+
+    /**
+     * 以用户的身份登陆系统
+     * @param name
+     * @param password
+     * @return
+     */
     public boolean login(String name,String password){
         Boolean result  = userService.login(name,password);
         return result;
     }
 
+    /**
+     * 注册账号
+     * @param name
+     * @param password
+     * @return
+     */
     public boolean register(String name, String password) {
         Boolean result = userService.register(name,password);
         return result;
     }
 
-    public boolean update(String name, String password, String newpassword) {
-        Boolean result = userService.update(name,password,newpassword);
+    /**
+     * 修改密码
+     * @param name
+     * @param password
+     * @param newpassword
+     * @return
+     */
+    public boolean revise(String name, String password, String newpassword) {
+        Boolean result = userService.revise(name,password,newpassword);
+        return result;
+    }
+
+    /**
+     * 以管理员的身份登陆系统
+     * @param name
+     * @param password
+     * @return
+     */
+    public boolean login1(String name, String password) {
+        Boolean result = userService.login1(name,password);
         return result;
     }
 }

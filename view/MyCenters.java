@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 
 public class MyCenters implements ActionListener {
 
-    private JPanel pan = new JPanel();  //创建JPanel面板对象
-    private static JFrame jf = new JFrame();
+    private JPanel panel = new JPanel();
+    private static JFrame frame = new JFrame();
     private JLabel namelab = new JLabel("昵    称");
     private JLabel sexlab = new JLabel("性    别");
     private JLabel signaturelab = new JLabel("个性签名");
@@ -23,26 +23,26 @@ public class MyCenters implements ActionListener {
     private JPasswordField newpasstext = new JPasswordField();
     private JTextField nametext = new JTextField();
     private JTextField signaturetext = new JTextField();
-    private ButtonGroup bg1 = new ButtonGroup();
-    private ButtonGroup bg2 = new ButtonGroup();
+    private ButtonGroup buttonGroup1 = new ButtonGroup();
+    private ButtonGroup buttonGroup2 = new ButtonGroup();
     UserController userController = new UserController();
-    String jrtext;
+    String text;
 
-    public JRadioButton jr1 = new JRadioButton("男");
-    public JRadioButton jr2 = new JRadioButton("女");
+    public JRadioButton man = new JRadioButton("男");
+    public JRadioButton woman = new JRadioButton("女");
     public JButton ok = new JButton("保存");
-    public JButton update = new JButton("修改");
+    public JButton revise = new JButton("修改");
     public JButton back = new JButton("返回主页");
 
     public MyCenters(){
-        Font font = new Font("宋体", Font.BOLD, 14);  //创建Font对象，并初始化font的字体名，风格和大小
-        jf.setTitle("个人中心");
-        pan.setLayout(null);  //使该窗体（or面板）取消布局管理器设置
+        Font font = new Font("宋体", Font.BOLD, 14);
+        frame.setTitle("个人中心");
+        panel.setLayout(null);
         namelab.setBounds(80,70,100,30);
         nametext.setBounds(180,70,200,30);
         sexlab.setBounds(80,120,100,30);
-        jr1.setBounds(180,120,60,30);
-        jr2.setBounds(250,120,60,30);
+        man.setBounds(180,120,60,30);
+        woman.setBounds(250,120,60,30);
         signaturelab.setBounds(80,170,100,30);
         signaturetext.setBounds(180,170,200,30);
         ok.setBounds(420,120,90,30);
@@ -53,52 +53,52 @@ public class MyCenters implements ActionListener {
         passtext.setBounds(240,280,150,30);
         newpasslab.setBounds(170,330,100,30);
         newpasstext.setBounds(240,330,150,30);
-        update.setBounds(420,270,90,30);
+        revise.setBounds(420,270,90,30);
         back.setBounds(250,380,100,30);
 
-        pan.add(namelab);
-        pan.add(nametext);
-        pan.add(sexlab);
-        pan.add(jr1);
-        pan.add(jr2);
-        pan.add(signaturelab);
-        pan.add(signaturetext);
-        pan.add(ok);
-        pan.add(updatelab);
-        pan.add(namelab1);
-        pan.add(nametext1);
-        pan.add(passlab);
-        pan.add(passtext);
-        pan.add(newpasslab);
-        pan.add(newpasstext);
-        pan.add(update);
-        pan.add(back);
+        panel.add(namelab);
+        panel.add(nametext);
+        panel.add(sexlab);
+        panel.add(man);
+        panel.add(woman);
+        panel.add(signaturelab);
+        panel.add(signaturetext);
+        panel.add(ok);
+        panel.add(updatelab);
+        panel.add(namelab1);
+        panel.add(nametext1);
+        panel.add(passlab);
+        panel.add(passtext);
+        panel.add(newpasslab);
+        panel.add(newpasstext);
+        panel.add(revise);
+        panel.add(back);
 
-        bg1.add(jr1);
-        bg1.add(jr2);
+        buttonGroup1.add(man);
+        buttonGroup2.add(woman);
 
         namelab.setFont(font);
         sexlab.setFont(font);
         signaturelab.setFont(font);
-        jr1.setFont(font);
-        jr2.setFont(font);
+        man.setFont(font);
+        woman.setFont(font);
         ok.setFont(font);
         updatelab.setFont(font);
         namelab1.setFont(font);
         passlab.setFont(font);
         newpasslab.setFont(font);
-        update.setFont(font);
+        revise.setFont(font);
         back.setFont(font);
 
-        jr1.addActionListener(this);
-        jr2.addActionListener(this);
+        man.addActionListener(this);
+        woman.addActionListener(this);
         ok.addActionListener(this);
-        update.addActionListener(this);
+        revise.addActionListener(this);
         back.addActionListener(this);
 
-        jf.add(pan);
-        jf.setSize(600, 500);
-        jf.setVisible(true);
+        frame.add(panel);
+        frame.setSize(600, 500);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
@@ -106,27 +106,19 @@ public class MyCenters implements ActionListener {
     }
 
     public static void closeThis() {
-        jf.dispose();
-    }
-
-    public void jr1(){
-        jrtext = jr1.getText();
-    }
-
-    public void jr2(){
-        jrtext = jr2.getText();
+        frame.dispose();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == ok){
             ok();
-        }else if(e.getSource() == jr1){
-            jr1();
-        }else if(e.getSource() == jr2){
-            jr2();
-        }else if(e.getSource() == update){
-            update();
+        }else if(e.getSource() == man){
+            text = man.getText();
+        }else if(e.getSource() == woman){
+            text = woman.getText();
+        }else if(e.getSource() == revise){
+            revise();
         }else if(e.getSource() == back){
             closeThis();
             new HomePage();
@@ -137,10 +129,12 @@ public class MyCenters implements ActionListener {
 
     }
 
-    public void update() {
-        Boolean result = userController.update(nametext1.getText(),passtext.getText(),newpasstext.getText());
+    public void revise() {
+        Boolean result = userController.revise(nametext1.getText(),passtext.getText(),newpasstext.getText());
         if(result){
-            jf.setVisible(false);
+            JOptionPane.showMessageDialog(null, "密码修改成功！");
+        }else {
+            JOptionPane.showMessageDialog(null, "用户不存在！");
         }
     }
 }

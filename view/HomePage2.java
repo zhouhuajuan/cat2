@@ -1,9 +1,5 @@
 package com.zhj.event.view;
 
-import com.zhj.event.view.Add;
-import com.zhj.event.view.Delete;
-import com.zhj.event.view.Revise;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +7,8 @@ import java.awt.event.ActionListener;
 
 public class HomePage2 implements ActionListener {
 
-    private JPanel pan = new JPanel();  //创建JPanel面板对象
-    private static JFrame jf = new JFrame();
+    private JPanel panel = new JPanel();
+    private static JFrame frame = new JFrame();
     private JLabel jl = new JLabel("英雄联盟职业联赛");
 
     public JButton add = new JButton("添加");
@@ -20,19 +16,19 @@ public class HomePage2 implements ActionListener {
     public JButton delete = new JButton("删除");
 
     public HomePage2() {
-        Font font = new Font("宋体", Font.BOLD, 12);  //创建Font对象，并初始化font的字体名，风格和大小
+        Font font = new Font("宋体", Font.BOLD, 12);
         Font font1 = new Font("宋体", Font.BOLD, 16);
-        jf.setTitle("欢迎来到英雄联盟职业联赛");
-        pan.setLayout(null);  //使该窗体（or面板）取消布局管理器设置
-        jl.setBounds(230, 70, 200, 30);//设置图标的位置和大小
+        frame.setTitle("欢迎来到英雄联盟职业联赛");
+        panel.setLayout(null);
+        jl.setBounds(230, 70, 200, 30);
         add.setBounds(250, 300, 100, 30);
         revise.setBounds(250, 350, 100, 30);
         delete.setBounds(250, 400, 100, 30);
 
-        pan.add(jl);
-        pan.add(add);
-        pan.add(revise);
-        pan.add(delete);
+        panel.add(jl);
+        panel.add(add);
+        panel.add(revise);
+        panel.add(delete);
 
         add.setFont(font);
         revise.setFont(font);
@@ -43,9 +39,9 @@ public class HomePage2 implements ActionListener {
         revise.addActionListener(this);
         delete.addActionListener(this);
 
-        jf.add(pan);
-        jf.setSize(600, 500);
-        jf.setVisible(true);
+        frame.add(panel);
+        frame.setSize(600, 500);
+        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
@@ -53,35 +49,23 @@ public class HomePage2 implements ActionListener {
     }
 
     public static void closeThis() {
-        jf.dispose();
+        frame.dispose();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == add){
-            add();
+            //点击添加按钮处理事件
+            closeThis();
+            new AddGame();
         }else if(e.getSource() == revise){
-            revise();
+            //点击修改按钮处理事件
+            closeThis();
+            new ReviseGame();
         }else if(e.getSource() == delete){
-            delete();
+            //点击删除按钮处理事件
+            closeThis();
+            new DeleteGame();
         }
-    }
-
-    //点击添加按钮处理事件
-    public void add(){
-        closeThis();
-        new Add();
-    }
-
-    //点击修改按钮处理事件
-    public void revise(){
-        closeThis();
-        new Revise();
-    }
-
-    //点击删除按钮处理事件
-    public void delete(){
-        closeThis();
-        new Delete();
     }
 }

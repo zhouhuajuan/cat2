@@ -1,12 +1,31 @@
 package com.zhj.event.dao;
 
-import java.sql.SQLException;
-
 public interface GameDao {
-    boolean insert1(String date, String against) throws SQLException;
+    /**
+     * 添加赛事
+     * @param date
+     * @param host_team
+     * @param guest_team
+     * @param price
+     * @return
+     */
+    boolean insertGame(String date, String host_team,String guest_team,String price);
 
-    boolean update(String date, String against) throws SQLException;
+    /**
+     * 修改赛事
+     * @param date
+     * @param host_team
+     * @param guest_team
+     * @param price
+     * @return
+     */
+    boolean updateGame(String date, String host_team,String guest_team,String price);
 
-    void delete(String date, String against) throws SQLException;
+    /**
+     * 删除赛事
+     * @param date
+     */
+    boolean deleteGame(String date);
 
+    boolean queryAnyGame(String text);
 }

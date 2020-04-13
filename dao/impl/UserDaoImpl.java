@@ -10,7 +10,7 @@ public class UserDaoImpl implements UserDao {
     PreparedStatement preparedStatement = null;
     ResultSet res = null;
     String driver = "com.mysql.jdbc.Driver";
-    String url = "jdbc:mysql://localhost:3306/cat?useSSL=false&serverTimezone=Hongkong&characterEncoding=utf-8&autoReconnect=true";
+    String url = "jdbc:mysql://localhost:3306/dajuan?useSSL=false&serverTimezone=Hongkong&characterEncoding=utf-8&autoReconnect=true";
     String name = "root";
     String passwd = null;
     private Object String;
@@ -32,63 +32,66 @@ public class UserDaoImpl implements UserDao {
 
 
     //用户注册功能的实现，添加数据
-    public int insert(String username, String password) throws SQLException {
-        String sql = "select username from user where username=? ";
-        preparedStatement = con.prepareStatement(sql);
-        preparedStatement.setString(1, username);
-        ResultSet rs = preparedStatement.executeQuery();
-        String sql1 = "insert into user(username,password) values(\"" + username + "\",\"" + password + "\")";
-        if (rs.next()) {
-            JOptionPane.showMessageDialog(null, "对不起该用户已存在！");
-        } else {
-            int a = preparedStatement.executeUpdate(sql1);
-            con.close();
-            preparedStatement.close();
-            return a;
+    public Boolean insertUser(String name, String password){
+        String sql = "select name from user where name =? ";
+        try {
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            res = preparedStatement.executeQuery();
+            String sql1 = "insert into user(name,password) values(\"" + name +"\",\"" + password +"\")";
+            if (res.next()) {
+                return false;
+            } else {
+                preparedStatement.executeUpdate(sql1);
+                con.close();
+                preparedStatement.close();
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return 0;
+        return false;
     }
 
     //对用户信息的修改实际上就是对密码的修改
-    public Boolean update(String username, String password, String newpassword) throws SQLException {
-        String sql = "select password from user where username=? ";
-        preparedStatement = con.prepareStatement(sql);
-        preparedStatement.setString(1, username);
-        ResultSet rs = preparedStatement.executeQuery();
-        if (rs.next()) {
-            String sql1 = "update user set password=\"" + newpassword + "\"where username=\"" + username + "\"";
-            try {
-                int a = preparedStatement.executeUpdate(sql1);
-                if (a == 1) {
-                    JOptionPane.showMessageDialog(null, "密码修改成功！");
+    public Boolean changePassword(String name, String password, String newpassword){
+        String sql = "select password from user where name =? ";
+        try {
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            res = preparedStatement.executeQuery();
+            if (res.next()) {
+                String sql1 = "update user set password=\"" + newpassword + "\"where name =\"" + name + "\"";
+                try {
+                    preparedStatement.executeUpdate(sql1);
+                    con.close();
+                    preparedStatement.close();
+                    return true;
+                } catch (SQLException e) {
+                    return false;
                 }
-                con.close();
-                preparedStatement.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "用户不存在！");
-                e.printStackTrace();
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "修改失败");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
     //对比用户名和密码是否匹配
-    public Boolean compare(String username, String password) {
-        boolean m = false;
-        String sql = "select password from user where username = ?";
+    public Boolean compareUserByPassword(String name, String password) {
+        boolean judge = false;
+        String sql = "select password from user where name = ?";
         try {
             preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1, username);
-            ResultSet res = preparedStatement.executeQuery();
+            preparedStatement.setString(1, name);
+            res = preparedStatement.executeQuery();
             if (res.next()) {
                 String pa = res.getString(1);
                 System.out.println(pa + " " + password);
                 if (pa.equals(password)) {
-                    m = true;
+                    judge = true;
                 } else {
-                    JOptionPane.showMessageDialog(null, "密码错误！");
+                    judge = false;
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "用户名不存在！");
@@ -99,6 +102,34 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return m;
+        return judge;
+    }
+
+    //对比管理员名和密码是否匹配
+    public Boolean compareUserByPassword1(String name, String password) {
+        boolean judge = false;
+        String sql = "select password from user where name=? and role = 1";
+        try {
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1,name);
+            res = preparedStatement.executeQuery();
+            if (res.next()) {
+                String pa = res.getString(1);
+                System.out.println(pa + " " + password);
+                if (pa.equals(password)) {
+                    judge = true;
+                } else {
+                    judge = false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "管理员名不存在！");
+            }
+            res.close();
+            con.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return judge;
     }
 }
