@@ -1,48 +1,30 @@
 package com.zhj.event.dao.impl;
 
 import com.zhj.event.dao.GameDao;
-import com.zhj.event.entity.Game;
-import com.zhj.event.view.HomePage2;
-import com.zhj.event.view.ReviseGame;
+import example.JdbcPool;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 
 public class GameDaoImpl implements GameDao {
-    Connection con = null;
+
     PreparedStatement preparedStatement = null;
     ResultSet res = null;
-    String driver = "com.mysql.jdbc.Driver";
-    String url = "jdbc:mysql://localhost:3306/dajuan?useSSL=false&serverTimezone=Hongkong&characterEncoding=utf-8&autoReconnect=true";
-    String name = "root";
-    String passwd =null;
 
+    //获取到数据库连接池的单例对象
+    JdbcPool jdbcPool = JdbcPool.getJdbcPoolInstance();
 
-    public GameDaoImpl() {
-        try {
-            Class.forName(driver).newInstance();
-            con = DriverManager.getConnection(url, name, passwd);
+    //从连接池中获取到一个数据库连接
+    Connection connection = jdbcPool.getJdbcConnection();
 
-        } catch (ClassNotFoundException e) {
-            System.out.println("对不起，找不到这个Driver");
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    //添加赛事信息
-    public boolean insertGame(String date, String host_team,String guest_team,String price){
+    @Override
+    public boolean insertGame(String date, String host_team, String guest_team, String price) {
         boolean judge = false;
         String sql="select date,host_team,guest_team from game where date=? and host_team=? and guest_team = ?";
         try {
-            preparedStatement = con.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,date);
             preparedStatement.setString(2,host_team);
             preparedStatement.setString(3,guest_team);
@@ -52,56 +34,56 @@ public class GameDaoImpl implements GameDao {
                 judge = false;
             }else {
                 preparedStatement.executeUpdate(sql1);
-                con.close();
-                preparedStatement.close();
                 judge = true;
             }
+            //最后释放连接，将资源交给连接池进行回收
+            jdbcPool.releaseJdbcConnection(res,preparedStatement,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return judge;
     }
 
-    //修改赛事信息
-    public boolean updateGame(String date, String host_team,String guest_team,String price){
+    @Override
+    public boolean updateGame(String date, String host_team, String guest_team, String price) {
         boolean judge = false;
         String sql = "select date from game where date =?";
         String sql1 = "update game set host_team =\"" + host_team + "\",guest_team =\"" + guest_team +"\",price=\"" + price +"\" where date =\"" + date + "\"";
         try {
-            preparedStatement = con.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,date);
             res=preparedStatement.executeQuery();
             if (res.next()) {
                 preparedStatement.executeUpdate(sql1);
-                con.close();
-                preparedStatement.close();
                 judge = true;
             } else {
                 judge = false;
             }
+            //最后释放连接，将资源交给连接池进行回收
+            jdbcPool.releaseJdbcConnection(res,preparedStatement,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return judge;
     }
 
-    //删除赛事信息
+    @Override
     public boolean deleteGame(String date) {
         boolean judge = false;
         String sql = "select date from game where date =? ";
         try {
-            preparedStatement = con.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, date);
             res = preparedStatement.executeQuery();
             String sql1 = "delete from game where date =\"" + date + "\"";
             if (res.next()) {
                 preparedStatement.executeUpdate(sql1);
-                con.close();
-                preparedStatement.close();
                 judge = true;
             } else {
                 judge = false;
             }
+            //最后释放连接，将资源交给连接池进行回收
+            jdbcPool.releaseJdbcConnection(res,preparedStatement,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,20 +91,20 @@ public class GameDaoImpl implements GameDao {
     }
 
     public  Vector rowData, columnName;
-    //访问数据库的表获取数据
+
     public void queryAllGame(){
         String sql = "select * from game";
         rowData = new Vector();
         try {
-            preparedStatement = con.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             res = preparedStatement.executeQuery();
             ResultSetMetaData data = res.getMetaData();
 
-            columnName = new Vector();
+           /* columnName = new Vector();
             //获取列名
             for (int i = 1; i <= data.getColumnCount(); i++) {
                 columnName.add(data.getColumnName(i));
-            }
+            }*/
 
             while (res.next()) {
                 Vector line1 = new Vector();
@@ -132,25 +114,25 @@ public class GameDaoImpl implements GameDao {
                 }
                 rowData.add(line1);
             }
-            res.close();
-            preparedStatement.close();
-            con.close();
+            //最后释放连接，将资源交给连接池进行回收
+            jdbcPool.releaseJdbcConnection(res,preparedStatement,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    //通过模糊查询获得数据库表的部分数据
-    public boolean queryAnyGame(String text){
+    @Override
+    public boolean queryAnyGame(String text) {
         boolean judge = false;
         String sql = "select * from game where host_team =? or guest_team =?";
         rowData = new Vector();
         try {
-            preparedStatement = con.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,text);
             preparedStatement.setString(2,text);
             res = preparedStatement.executeQuery();
             ResultSetMetaData data = res.getMetaData();
+            System.out.println("hello");
 
             columnName = new Vector();
             //获取列名
@@ -166,13 +148,13 @@ public class GameDaoImpl implements GameDao {
                 }
                 rowData.add(line1);
             }
-            res.close();
-            preparedStatement.close();
-            con.close();
             judge = true;
+            //最后释放连接，将资源交给连接池进行回收
+            jdbcPool.releaseJdbcConnection(res,preparedStatement,connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return judge;
     }
+
 }

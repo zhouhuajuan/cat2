@@ -1,6 +1,11 @@
 package com.zhj.event.view;
 
+import com.zhj.event.dao.impl.GameDaoImpl;
+
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +13,10 @@ import java.awt.event.ActionListener;
 public class HomePage2 implements ActionListener {
 
     private JPanel panel = new JPanel();
+    private JPanel panel1 = new JPanel();
+    private JTable table;
     private static JFrame frame = new JFrame();
-    private JLabel jl = new JLabel("英雄联盟职业联赛");
+    GameDaoImpl gameDaoImpl = new GameDaoImpl();
 
     public JButton add = new JButton("添加");
     public JButton revise = new JButton("修改");
@@ -19,13 +26,8 @@ public class HomePage2 implements ActionListener {
         Font font = new Font("宋体", Font.BOLD, 12);
         Font font1 = new Font("宋体", Font.BOLD, 16);
         frame.setTitle("欢迎来到英雄联盟职业联赛");
-        panel.setLayout(null);
-        jl.setBounds(230, 70, 200, 30);
-        add.setBounds(250, 300, 100, 30);
-        revise.setBounds(250, 350, 100, 30);
-        delete.setBounds(250, 400, 100, 30);
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        panel.add(jl);
         panel.add(add);
         panel.add(revise);
         panel.add(delete);
@@ -33,13 +35,30 @@ public class HomePage2 implements ActionListener {
         add.setFont(font);
         revise.setFont(font);
         delete.setFont(font);
-        jl.setFont(font1);
 
         add.addActionListener(this);
         revise.addActionListener(this);
         delete.addActionListener(this);
 
-        frame.add(panel);
+        gameDaoImpl.queryAllGame();
+        DefaultTableModel defaultTableModel = new DefaultTableModel(gameDaoImpl.rowData,gameDaoImpl.columnName);
+        table = new JTable(defaultTableModel);
+        table.setBorder(new LineBorder(new Color(0, 0, 0)));
+        // 设置表格内容颜色
+        table.setForeground(Color.BLACK);
+        table.setFont(new Font(null, Font.PLAIN, 14));
+        table.setSelectionForeground(Color.DARK_GRAY);
+        table.setSelectionBackground(Color.LIGHT_GRAY);
+        table.setGridColor(Color.GRAY);
+
+        //定义一个滚动面板，并把表格添加到滚动面板中
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel1.add(scrollPane);
+
+        frame.setLayout(new BorderLayout());
+        frame.add(panel,BorderLayout.SOUTH);
+        frame.add(panel1,BorderLayout.NORTH);
         frame.setSize(600, 500);
         frame.setVisible(true);
     }

@@ -4,34 +4,34 @@ public interface UserDao {
 
     /**
      *注册账号
-     * @param name
-     * @param password
-     * @return
+     * @param name 账号
+     * @param password 密码
+     * @return 返回一个Boolean结果
      */
-    Boolean insertUser(String name, String password);
+    boolean insertUser(String name, String password);
 
     /**
      *以用户的身份登陆系统
-     * @param name
-     * @param password
-     * @return
+     * @param name 账号
+     * @param password 密码
+     * @return 返回一个int结果
      */
-    Boolean compareUserByPassword(String name, String password);
+    int compareUserByPassword(String name, String password);
 
     /**
      *修改密码
-     * @param name
-     * @param password
-     * @param newpassword
-     * @return
+     * @param name 账号
+     * @param password 密码
+     * @param newpassword 新密码
+     * @return 返回一个Boolean结果
      */
-    Boolean changePassword(String name, String password, String newpassword);
+    boolean changePassword(String name, String password, String newpassword);
 
     /**
      * 以管理员的身份登陆系统
-     * @param name
-     * @param password
-     * @return
+     * @param name 账号
+     * @param password 密码
+     * @return 返回一个int结果
      */
-    Boolean compareUserByPassword1(String name, String password);
+    int compareUserByPassword1(String name, String password);
 }

@@ -1,31 +1,40 @@
 package com.zhj.event.dao;
 
+import java.sql.Timestamp;
+
 public interface GameDao {
     /**
      * 添加赛事
-     * @param date
-     * @param host_team
-     * @param guest_team
-     * @param price
-     * @return
+     * @param date 日期
+     * @param host_team 主战队
+     * @param guest_team 客战队
+     * @param price 价格
+     * @return 返回一个boolean结果
      */
     boolean insertGame(String date, String host_team,String guest_team,String price);
 
     /**
      * 修改赛事
-     * @param date
-     * @param host_team
-     * @param guest_team
-     * @param price
-     * @return
+     * @param date 日期
+     * @param host_team 主战队
+     * @param guest_team 客战队
+     * @param price 价格
+     * @return 返回一个boolean结果
      */
     boolean updateGame(String date, String host_team,String guest_team,String price);
 
     /**
      * 删除赛事
-     * @param date
+     * @param date 日期
+     * @return 返回一个boolean结果
      */
     boolean deleteGame(String date);
 
+    /**
+     * 查询数据库的表
+     * @param text 搜索框的文本
+     * @return 返回一个boolean结果
+     */
     boolean queryAnyGame(String text);
+
 }

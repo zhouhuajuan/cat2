@@ -1,7 +1,12 @@
 package com.zhj.event.controller;
 
+import com.zhj.event.bean.ReserveGameParam;
+import com.zhj.event.entity.Order;
 import com.zhj.event.service.GameService;
 import com.zhj.event.service.impl.GameServiceImpl;
+
+import java.sql.Timestamp;
+import java.util.Vector;
 
 public class GameController {
 
@@ -10,11 +15,11 @@ public class GameController {
 
     /**
      * 添加赛事
-     * @param date
-     * @param host_team
-     * @param guest_team
-     * @param price
-     * @return
+     * @param date 日期
+     * @param host_team 主战队
+     * @param guest_team 客战队
+     * @param price 价格
+     * @return 返回一个Boolean结果
      */
     public Boolean add(String date, String host_team,String guest_team,String price){
         Boolean result = gameService.add(date,host_team,guest_team,price);
@@ -23,11 +28,11 @@ public class GameController {
 
     /**
      * 修改赛事
-     * @param date
-     * @param host_team
-     * @param guest_team
-     * @param price
-     * @return
+     * @param date 日期
+     * @param host_team 主战队
+     * @param guest_team 客战队
+     * @param price 价格
+     * @return 返回一个Boolean结果
      */
     public Boolean revise(String date, String host_team,String guest_team,String price) {
         Boolean result = gameService.revise(date,host_team,guest_team,price);
@@ -36,7 +41,8 @@ public class GameController {
 
     /**
      * 删除赛事
-     * @param date
+     * @param date 日期
+     * @return 返回一个Boolean结果
      */
     public Boolean delete(String date) {
         Boolean result = gameService.delete(date);
@@ -45,8 +51,8 @@ public class GameController {
 
     /**
      * 查询赛事
-     * @param text
-     * @return
+     * @param text 搜索框文本
+     * @return 返回一个Boolean结果
      */
     public Boolean search(String text) {
         Boolean result = gameService.search(text);

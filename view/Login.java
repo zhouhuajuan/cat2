@@ -16,13 +16,14 @@ import java.awt.event.ActionListener;
  */
 
 public class Login extends JFrame implements ActionListener {
-    private JPanel panel = new JPanel();  //创建JPanel面板对象
+    public static String name;
+    private JPanel panel = new JPanel();
     private static JFrame frame = new JFrame();
     private JLabel label = new JLabel("英雄联盟");
-    private JLabel namelab = new JLabel("账    号");  //创建带文本“用户名”的标签
-    private JLabel passlab = new JLabel("密    码");  //创建带文本“密    码”的标签
-    private JTextField nametext = new JTextField();  //创建文本框（JTextField）对象
-    private JPasswordField passtext = new JPasswordField();  //创建密码框（JPasswordField）对象
+    private JLabel namelab = new JLabel("账    号");
+    private JLabel passlab = new JLabel("密    码");
+    private JTextField nametext = new JTextField();
+    private JPasswordField passtext = new JPasswordField();
     private ButtonGroup buttonGroup1 = new ButtonGroup();
     private ButtonGroup buttonGroup2 = new ButtonGroup();
     String text;
@@ -37,6 +38,7 @@ public class Login extends JFrame implements ActionListener {
 
     //定义无参构造方法
     public Login() {
+
         //创建Font对象，并初始化font的字体名，风格和大小
         Font font = new Font("宋体", Font.BOLD, 12);
         Font font1 = new Font("宋体", Font.BOLD, 16);
@@ -109,21 +111,27 @@ public class Login extends JFrame implements ActionListener {
 
     public void login(){
         if(text.equals("用户")){
-           Boolean result = userController.login(nametext.getText(),passtext.getText());
-            if(result){
+           int result = userController.login(nametext.getText(),passtext.getText());
+            if(result == 1){
                 JOptionPane.showMessageDialog(null, "登陆成功！");
+               name = nametext.getText();
                 closeThis();
                 new HomePage();
-            }else {
+            }else if(result == 2){
                 JOptionPane.showMessageDialog(null, "密码错误！");
+            }else if(result == 0){
+                JOptionPane.showMessageDialog(null, "用户名不存在！");
             }
         } else if (text.equals("管理员")) {
-            Boolean result = userController.login1(nametext.getText(),passtext.getText());
-            if(result){
+            int result = userController.login1(nametext.getText(),passtext.getText());
+            if(result == 1){
+                JOptionPane.showMessageDialog(null, "登陆成功！");
                 closeThis();
                 new HomePage2();
-            }else {
+            }else if(result == 2){
                 JOptionPane.showMessageDialog(null, "密码错误！");
+            }else if(result == 0){
+                JOptionPane.showMessageDialog(null, "管理员名不存在！");
             }
         }
     }

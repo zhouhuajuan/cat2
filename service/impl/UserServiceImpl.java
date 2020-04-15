@@ -4,17 +4,15 @@ import com.zhj.event.dao.UserDao;
 import com.zhj.event.dao.impl.UserDaoImpl;
 import com.zhj.event.service.UserService;
 
-import java.sql.SQLException;
-
 public class UserServiceImpl implements UserService {
     //实例化一个持久层对象
     UserDao userDao =new UserDaoImpl();
 
     /**
      * 注册账号
-     * @param name
-     * @param password
-     * @return
+     * @param name 账号
+     * @param password 密码
+     * @return 返回一个Boolean结果
      */
     @Override
     public boolean register(String name, String password) {
@@ -24,22 +22,22 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 以用户的身份登陆系统
-     * @param name
-     * @param password
-     * @return
+     * @param name 账号
+     * @param password  密码
+     * @return 返回一个int结果
      */
     @Override
-    public boolean login(String name, String password) {
-        Boolean result = userDao.compareUserByPassword(name, password);
+    public int login(String name, String password) {
+        int result = userDao.compareUserByPassword(name, password);
         return result;
     }
 
     /**
      * 修改密码
-     * @param name
-     * @param password
-     * @param newpassword
-     * @return
+     * @param name 账号
+     * @param password 密码
+     * @param newpassword 新密码
+     * @return 返回一个Boolean结果
      */
     @Override
     public boolean revise(String name, String password, String newpassword) {
@@ -49,13 +47,13 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 以管理员的身份登陆系统
-     * @param name
-     * @param password
-     * @return
+     * @param name 账号
+     * @param password 密码
+     * @return 返回一个int结果
      */
     @Override
-    public boolean login1(String name, String password) {
-        Boolean result = userDao.compareUserByPassword1(name,password);
+    public int login1(String name, String password) {
+        int result = userDao.compareUserByPassword1(name,password);
         return result;
     }
 }
