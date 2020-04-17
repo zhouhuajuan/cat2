@@ -1,8 +1,11 @@
 package com.zhj.event.view;
 
+import com.zhj.event.controller.MessageController;
 import com.zhj.event.controller.UserController;
+import com.zhj.event.dao.impl.MessageDaoImpl;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +13,7 @@ import java.awt.event.ActionListener;
 public class MyCenters implements ActionListener {
 
     private JPanel panel = new JPanel();
-    private static JFrame frame = new JFrame();
+    private JFrame frame = new JFrame();
     private JLabel namelab = new JLabel("昵    称");
     private JLabel sexlab = new JLabel("性    别");
     private JLabel signaturelab = new JLabel("个性签名");
@@ -26,6 +29,8 @@ public class MyCenters implements ActionListener {
     private ButtonGroup buttonGroup1 = new ButtonGroup();
     private ButtonGroup buttonGroup2 = new ButtonGroup();
     UserController userController = new UserController();
+    MessageDaoImpl messageDaoImpl = new MessageDaoImpl();
+    MessageController messageController = new MessageController();
     String text;
 
     public JRadioButton man = new JRadioButton("男");
@@ -33,6 +38,8 @@ public class MyCenters implements ActionListener {
     public JButton ok = new JButton("保存");
     public JButton revise = new JButton("修改");
     public JButton back = new JButton("返回主页");
+    public static String name;
+    public int userId;
 
     public MyCenters(){
         Font font = new Font("宋体", Font.BOLD, 14);
@@ -105,7 +112,7 @@ public class MyCenters implements ActionListener {
         new MyCenters();
     }
 
-    public static void closeThis() {
+    public void closeThis() {
         frame.dispose();
     }
 
@@ -126,7 +133,19 @@ public class MyCenters implements ActionListener {
     }
 
     public void ok(){
-
+        int result = messageDaoImpl.getUserIdByName(name);
+        System.out.println(result);
+        if(result == 1){
+            userId = messageDaoImpl.userId;
+            Boolean result1 =messageController.insertMessage(userId,nametext.getText(),text,signaturetext.getText());
+            if(result1){
+                JOptionPane.showMessageDialog(null, "保存成功！");
+            }else{
+                JOptionPane.showMessageDialog(null, "保存失败！");
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "保存失败！");
+        }
     }
 
     public void revise() {

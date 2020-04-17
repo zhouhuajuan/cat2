@@ -55,6 +55,8 @@ public class Register implements ActionListener {
             Boolean result = userController.register(nametext.getText(), passwordtext.getText());
             if (result) {
                 JOptionPane.showMessageDialog(null, "注册成功！");
+                HomePage.name = nametext.getText();
+                SearchGame.name = nametext.getText();
                 closeThis();
                 new HomePage();
             }else {

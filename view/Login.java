@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
  */
 
 public class Login extends JFrame implements ActionListener {
-    public static String name;
     private JPanel panel = new JPanel();
     private static JFrame frame = new JFrame();
     private JLabel label = new JLabel("英雄联盟");
@@ -105,7 +104,8 @@ public class Login extends JFrame implements ActionListener {
         } else if(e.getSource() == login){
             login();
         }else if(e.getSource() == register){
-            register();
+            closeThis();
+            new Register();
         }
     }
 
@@ -114,7 +114,9 @@ public class Login extends JFrame implements ActionListener {
            int result = userController.login(nametext.getText(),passtext.getText());
             if(result == 1){
                 JOptionPane.showMessageDialog(null, "登陆成功！");
-               name = nametext.getText();
+                //name = nametext.getText();
+                HomePage.name = nametext.getText();
+                SearchGame.name = nametext.getText();
                 closeThis();
                 new HomePage();
             }else if(result == 2){
@@ -135,10 +137,4 @@ public class Login extends JFrame implements ActionListener {
             }
         }
     }
-
-    public void register(){
-        closeThis();
-        new Register();
-    }
-
 }

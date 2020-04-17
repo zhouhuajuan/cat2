@@ -9,13 +9,15 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class HomePage2 implements ActionListener {
 
     private JPanel panel = new JPanel();
     private JPanel panel1 = new JPanel();
     private JTable table;
-    private static JFrame frame = new JFrame();
+    private JFrame frame = new JFrame();
+    private Vector columnNames = new Vector();
     GameDaoImpl gameDaoImpl = new GameDaoImpl();
 
     public JButton add = new JButton("添加");
@@ -40,8 +42,14 @@ public class HomePage2 implements ActionListener {
         revise.addActionListener(this);
         delete.addActionListener(this);
 
+        columnNames.add(0,"id");
+        columnNames.add(1,"date");
+        columnNames.add(2,"host_team");
+        columnNames.add(3,"guest_team");
+        columnNames.add(4,"price");
+
         gameDaoImpl.queryAllGame();
-        DefaultTableModel defaultTableModel = new DefaultTableModel(gameDaoImpl.rowData,gameDaoImpl.columnName);
+        DefaultTableModel defaultTableModel = new DefaultTableModel(gameDaoImpl.rowData,columnNames);
         table = new JTable(defaultTableModel);
         table.setBorder(new LineBorder(new Color(0, 0, 0)));
         // 设置表格内容颜色
@@ -54,20 +62,23 @@ public class HomePage2 implements ActionListener {
         //定义一个滚动面板，并把表格添加到滚动面板中
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+        scrollPane.setPreferredSize(new Dimension(500,400));
         panel1.add(scrollPane);
+        panel1.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         frame.setLayout(new BorderLayout());
         frame.add(panel,BorderLayout.SOUTH);
         frame.add(panel1,BorderLayout.NORTH);
         frame.setSize(600, 500);
         frame.setVisible(true);
+        panel1.revalidate();
     }
 
     public static void main(String[] args) {
         new HomePage2();
     }
 
-    public static void closeThis() {
+    public void closeThis() {
         frame.dispose();
     }
 

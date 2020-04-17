@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class DeleteGame{
     private JPanel panel = new JPanel();
-    private static JFrame frame = new JFrame("欢迎来到英雄联盟职业联赛");
+    private JFrame frame = new JFrame("欢迎来到英雄联盟职业联赛");
     private JLabel label = new JLabel("删除赛事");
     private JLabel datelab = new JLabel("日期");
     private JTextField datetext = new JTextField();
@@ -67,7 +67,7 @@ public class DeleteGame{
         new DeleteGame();
     }
 
-    public static void closeThis() {
+    public void closeThis() {
         frame.dispose();
     }
 

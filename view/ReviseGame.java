@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class ReviseGame implements ActionListener {
     private JPanel panel = new JPanel();
-    private  static JFrame frame = new JFrame("欢迎来到英雄联盟职业联赛");
+    private  JFrame frame = new JFrame("欢迎来到英雄联盟职业联赛");
     private JLabel label = new JLabel("修改赛事");
     private JLabel datelab = new JLabel("日期");
     private JLabel hostlab = new JLabel("主战队");
@@ -73,7 +73,7 @@ public class ReviseGame implements ActionListener {
         new ReviseGame();
     }
 
-    public static void closeThis() {
+    public void closeThis() {
         frame.dispose();
     }
 

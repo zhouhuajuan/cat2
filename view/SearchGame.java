@@ -1,23 +1,31 @@
 package com.zhj.event.view;
 
 import com.zhj.event.controller.GameController;
+import com.zhj.event.controller.OrderController;
 import com.zhj.event.dao.impl.GameDaoImpl;
+import com.zhj.event.dao.impl.OrderDaoImpl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class SearchGame implements ActionListener {
-    private static JFrame frame = new JFrame();
+    private JFrame frame = new JFrame();
     private JLabel label = new JLabel("请输入要搜索的战队：");
     private JPanel panel = new JPanel();
     private JPanel panel1 = new JPanel();
-    private JTable table;
+    private JPanel panel2 = new JPanel();
+    private JTable table = new JTable();
+    public static String name;
     GameDaoImpl gameDaoImpl = new GameDaoImpl();
     GameController gameController = new GameController();
+    OrderDaoImpl orderDapImpl = new OrderDaoImpl();
+    OrderController orderController = new OrderController();
 
     private JTextField jTextField = new JTextField();
     public JButton search = new JButton("搜索");
@@ -41,8 +49,14 @@ public class SearchGame implements ActionListener {
         panel.add(jTextField);
         panel.add(search);
 
+        panel2.setLayout(new FlowLayout(FlowLayout.CENTER));
+        reserve.setPreferredSize(new Dimension(90,25));
+        panel2.add(reserve);
+        panel2.add(back);
+
         frame.setLayout(new BorderLayout());
         frame.add(panel,BorderLayout.NORTH);
+        frame.add(panel2,BorderLayout.SOUTH);
         frame.setSize(600, 500);
         frame.setVisible(true);
     }
@@ -62,12 +76,9 @@ public class SearchGame implements ActionListener {
     public void search(){
         Boolean result = gameController.search(jTextField.getText());
         if (result) {
-            //刷新Table
-           // panel1.validate();
-            //panel1.repaint();
-
             gameDaoImpl.queryAnyGame(jTextField.getText());
-            table = new JTable(gameDaoImpl.rowData, gameDaoImpl.columnName);
+            DefaultTableModel model = new DefaultTableModel(gameDaoImpl.rowData, gameDaoImpl.columnName);
+            table.setModel(model);
             table.setBorder(new LineBorder(new Color(0, 0, 0)));
             // 设置表格内容颜色
             table.setForeground(Color.BLACK);
@@ -81,10 +92,14 @@ public class SearchGame implements ActionListener {
             scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
             panel1.add(scrollPane);
             panel1.setBorder(new EmptyBorder(10, 10, 10, 10));
+
             //刷新Table
-            //panel1.validate();
+            // panel1.revalidate();
+            //panel1.repaint();
 
             frame.add(panel1, BorderLayout.CENTER);
+            //刷新面板
+            panel1.revalidate();
             System.out.println("world");
         }else {
             JOptionPane.showMessageDialog(null, "对不起，未找到相关内容！");
@@ -92,14 +107,40 @@ public class SearchGame implements ActionListener {
     }
 
     public void reserve(){
-
+        //获取你选中的行号（记录）
+        int count=table.getSelectedRow();
+        //读取你获取行号的某一列的值（也就是字段）
+        String gameId1= table.getValueAt(count, 0).toString();
+        int gameId = Integer.parseInt(gameId1);
+        String date = table.getValueAt(count,1).toString();
+        String hostTeam = table.getValueAt(count,2).toString();
+        String guestTeam = table.getValueAt(count,3).toString();
+        String price1 = table.getValueAt(count,4).toString();
+        int price = Integer.parseInt(price1);
+        System.out.println(gameId);
+        //System.out.println("world11111");
+        System.out.println(name);
+        //System.out.println(name.getClass());
+        int result = orderController.getUserIdByName(name);
+        if(result == 1) {
+            int userId = OrderDaoImpl.userId;
+            System.out.println(userId);
+            Boolean result1 = orderController.reserve(userId, gameId,date,hostTeam,guestTeam,price);
+            if (result1 == true) {
+                JOptionPane.showMessageDialog(null, "预定成功！");
+            } else {
+                JOptionPane.showMessageDialog(null, "该订单已存在！");
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "预定失败！");
+        }
     }
 
     public static void main(String[] args) {
         new SearchGame();
     }
 
-    public static void closeThis() {
+    public void closeThis() {
         frame.dispose();
     }
 }

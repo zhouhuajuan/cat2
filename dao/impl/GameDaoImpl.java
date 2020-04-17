@@ -22,12 +22,13 @@ public class GameDaoImpl implements GameDao {
     @Override
     public boolean insertGame(String date, String host_team, String guest_team, String price) {
         boolean judge = false;
-        String sql="select date,host_team,guest_team from game where date=? and host_team=? and guest_team = ?";
+        String sql="select date,host_team,guest_team,price from game where date=? and host_team=? and guest_team = ? and price = ?";
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,date);
             preparedStatement.setString(2,host_team);
             preparedStatement.setString(3,guest_team);
+            preparedStatement.setString(4,price);
             res=preparedStatement.executeQuery();
             String sql1 = "insert into game(date ,host_team,guest_team,price) values(\"" + date + "\",\"" + host_team + "\",\"" + guest_team +"\",\"" + price +"\")";
             if(res.next()) {
@@ -124,7 +125,7 @@ public class GameDaoImpl implements GameDao {
     @Override
     public boolean queryAnyGame(String text) {
         boolean judge = false;
-        String sql = "select * from game where host_team =? or guest_team =?";
+        String sql = "select * from game where host_team like ? or guest_team like  ?";
         rowData = new Vector();
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -132,7 +133,7 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.setString(2,text);
             res = preparedStatement.executeQuery();
             ResultSetMetaData data = res.getMetaData();
-            System.out.println("hello");
+            //System.out.println("hello");
 
             columnName = new Vector();
             //获取列名
