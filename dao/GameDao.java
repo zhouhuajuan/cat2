@@ -1,7 +1,5 @@
 package com.zhj.event.dao;
 
-import java.sql.Timestamp;
-
 public interface GameDao {
     /**
      * 添加赛事

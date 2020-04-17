@@ -126,7 +126,6 @@ public class HomePage implements ActionListener {
             closeThis();
             new MyWallet();
         }else if(e.getSource() == reserve){
-            //System.out.println("world22222");
             reserve();
 
         }
@@ -143,10 +142,6 @@ public class HomePage implements ActionListener {
         String guestTeam = table.getValueAt(count,3).toString();
         String price1 = table.getValueAt(count,4).toString();
         int price = Integer.parseInt(price1);
-        System.out.println(gameId);
-        //System.out.println("world11111");
-        System.out.println(name);
-        //System.out.println(name.getClass());
         int result = orderController.getUserIdByName(name);
         if(result == 1) {
             userId = OrderDaoImpl.userId;

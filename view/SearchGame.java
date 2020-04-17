@@ -93,10 +93,6 @@ public class SearchGame implements ActionListener {
             panel1.add(scrollPane);
             panel1.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-            //刷新Table
-            // panel1.revalidate();
-            //panel1.repaint();
-
             frame.add(panel1, BorderLayout.CENTER);
             //刷新面板
             panel1.revalidate();
@@ -118,9 +114,7 @@ public class SearchGame implements ActionListener {
         String price1 = table.getValueAt(count,4).toString();
         int price = Integer.parseInt(price1);
         System.out.println(gameId);
-        //System.out.println("world11111");
         System.out.println(name);
-        //System.out.println(name.getClass());
         int result = orderController.getUserIdByName(name);
         if(result == 1) {
             int userId = OrderDaoImpl.userId;

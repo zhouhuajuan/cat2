@@ -5,7 +5,6 @@ import com.zhj.event.controller.UserController;
 import com.zhj.event.dao.impl.MessageDaoImpl;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

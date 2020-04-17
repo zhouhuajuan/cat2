@@ -4,9 +4,6 @@ import com.zhj.event.dao.GameDao;
 import com.zhj.event.dao.impl.GameDaoImpl;
 import com.zhj.event.service.GameService;
 
-import java.sql.SQLException;
-import java.util.Vector;
-
 public class GameServiceImpl implements GameService {
     //实例化一个GameDao对象
     GameDao gameDao = new GameDaoImpl();

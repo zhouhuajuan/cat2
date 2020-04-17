@@ -101,12 +101,6 @@ public class GameDaoImpl implements GameDao {
             res = preparedStatement.executeQuery();
             ResultSetMetaData data = res.getMetaData();
 
-           /* columnName = new Vector();
-            //获取列名
-            for (int i = 1; i <= data.getColumnCount(); i++) {
-                columnName.add(data.getColumnName(i));
-            }*/
-
             while (res.next()) {
                 Vector line1 = new Vector();
                 //添加行数据
