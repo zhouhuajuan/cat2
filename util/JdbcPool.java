@@ -1,7 +1,5 @@
 package com.zhj.event.util;
 
-import example.JdbcConnect;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -51,7 +49,7 @@ public class JdbcPool {
             //初始化承载连接的容器
             jdbcConnectPool = new CopyOnWriteArrayList();
             //以初始化连接数量生成对应数量的jdbc连接且放入jdbcConnectPool中
-            example.JdbcConnect jdbcConnect = example.JdbcConnect.getJdbcConnectInstance();
+            JdbcConnect jdbcConnect = JdbcConnect.getJdbcConnectInstance();
             for (int i = 0; i < INIT_LINK_NUM; i++) {
                 Connection tempConnection = jdbcConnect.getConnection();
                 if(tempConnection != null){
@@ -71,7 +69,7 @@ public class JdbcPool {
         //获取数据库连接，如果当前数据库连接池中没有
         if(jdbcConnectPool.isEmpty() && getAllConnectionNum() < MAX_LINK_NUM){
             //获取JdbcConnect连接对象
-            example.JdbcConnect jdbcConnect = JdbcConnect.getJdbcConnectInstance();
+            JdbcConnect jdbcConnect = JdbcConnect.getJdbcConnectInstance();
             //获取Connection
             Connection tempConnection = jdbcConnect.getConnection();
             //将创建好的连接放入连接池

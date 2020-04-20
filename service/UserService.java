@@ -25,7 +25,7 @@ public interface UserService {
      * @param newpassword 新密码
      * @return 返回一个boolean结果
      */
-    boolean revise(String name, String password, String newpassword);
+    boolean revise(String name, String password, String newpassword) throws Exception;
 
     /**
      * 以管理员的身份登陆系统
@@ -34,4 +34,35 @@ public interface UserService {
      * @return 返回一个int结果
      */
     int login1(String name, String password);
+
+    /**
+     *通过账号获得用户的id
+     * @param name 账号
+     * @return int
+     */
+    int getUserIdByName(String name);
+
+    /**
+     *通过用户的id获得余额
+     * @param userId 用户id
+     * @return boolean
+     */
+    boolean getBalanceByUserId(int userId);
+
+    /**
+     * 充值
+     * @param userId 用户id
+     * @param balance 余额
+     * @return boolean
+     */
+    boolean chargeMoney(int userId, int balance);
+
+    /**
+     * 扣费
+     * @param userId 用户id
+     * @param balance 余额
+     * @return boolean
+     */
+    boolean deductMoney(int userId, int balance);
+
 }

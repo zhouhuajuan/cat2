@@ -6,6 +6,9 @@ import com.zhj.event.service.MessageService;
 
 public class MessageServiceImpl implements MessageService {
 
+    /**
+     * 实例化一个MessageDao对象
+     */
     MessageDao messageDao = new MessageDaoImpl();
 
     /**

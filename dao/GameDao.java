@@ -9,7 +9,7 @@ public interface GameDao {
      * @param price 价格
      * @return 返回一个boolean结果
      */
-    boolean insertGame(String date, String host_team,String guest_team,String price);
+    boolean insertGame(String date, String host_team,String guest_team,int price);
 
     /**
      * 修改赛事
@@ -19,7 +19,7 @@ public interface GameDao {
      * @param price 价格
      * @return 返回一个boolean结果
      */
-    boolean updateGame(String date, String host_team,String guest_team,String price);
+    boolean updateGame(String date, String host_team,String guest_team,int price);
 
     /**
      * 删除赛事

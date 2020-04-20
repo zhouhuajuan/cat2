@@ -1,7 +1,9 @@
 package com.zhj.event.view;
 
 import com.zhj.event.controller.OrderController;
+import com.zhj.event.controller.UserController;
 import com.zhj.event.dao.impl.OrderDaoImpl;
+import com.zhj.event.dao.impl.UserDaoImpl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -22,16 +24,19 @@ public class MyOrders implements ActionListener {
     private Vector columnNames = new Vector();
     OrderDaoImpl orderDaoImpl = new OrderDaoImpl();
     OrderController orderController = new OrderController();
+    UserDaoImpl userDaoImpl = new UserDaoImpl();
+    UserController userController = new UserController();
 
     public JButton cancel = new JButton("取消");
     public JButton back = new JButton("返回主页");
     public static String name;
-    public  int userId;
+    public int userId;
+    public int balance;
 
     public MyOrders(){
         Font font = new Font("宋体", Font.BOLD, 12);
         Font font1 = new Font("宋体",Font.BOLD,16);
-        frame.setTitle("英雄联盟职业联赛");
+        frame.setTitle("我的订单");
 
         cancel.setFont(font);
         back.setFont(font);
@@ -52,17 +57,14 @@ public class MyOrders implements ActionListener {
             userId = orderDaoImpl.userId;
             System.out.println(userId);
             Boolean result1 = orderDaoImpl.queryOrder(userId);
-            if(result1){
+            if (result1){
                 DefaultTableModel model = new DefaultTableModel(orderDaoImpl.rowData,columnNames);
-                System.out.println(orderDaoImpl.rowData);
                 table.setModel(model);
-
             }else{
                 panel3.add(label);
-                frame.add(panel3);
+                frame.add(panel3,BorderLayout.NORTH);
             }
         }
-
         table.setBorder(new LineBorder(new Color(0, 0, 0)));
         // 设置表格内容颜色
         table.setForeground(Color.BLACK);
@@ -86,7 +88,6 @@ public class MyOrders implements ActionListener {
         frame.add(panel1,BorderLayout.SOUTH);
         frame.setSize(600, 500);
         frame.setVisible(true);
-        System.out.println("dajuan");
     }
 
     public static void main(String[] args) {
@@ -113,9 +114,17 @@ public class MyOrders implements ActionListener {
         //读取你获取行号的某一列的值（也就是字段）
         String gameId1= table.getValueAt(count, 0).toString();
         int gameId = Integer.parseInt(gameId1);
+        String price1 = table.getValueAt(count,4).toString();
+        int price = Integer.parseInt(price1);
         Boolean result = orderController.cancelOrder(userId,gameId);
         if(result){
             JOptionPane.showMessageDialog(null, "取消订单成功！");
+            Boolean result1 = userController.getBalanceByUserId(userId);
+            if(result1){
+                balance = userDaoImpl.balance;
+                int total = balance+price;
+                userController.chargeMoney(userId,total);
+            }
             closeThis();
             new MyOrders();
         }else {

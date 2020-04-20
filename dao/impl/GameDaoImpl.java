@@ -1,9 +1,8 @@
 package com.zhj.event.dao.impl;
 
 import com.zhj.event.dao.GameDao;
-import example.JdbcPool;
+import com.zhj.event.util.JdbcPool;
 
-import javax.swing.*;
 import java.sql.*;
 import java.util.Vector;
 
@@ -12,15 +11,20 @@ public class GameDaoImpl implements GameDao {
 
     PreparedStatement preparedStatement = null;
     ResultSet res = null;
+    public  Vector rowData, columnName;
 
-    //获取到数据库连接池的单例对象
+    /**
+     * 获取到数据库连接池的单例对象
+     */
     JdbcPool jdbcPool = JdbcPool.getJdbcPoolInstance();
 
-    //从连接池中获取到一个数据库连接
+    /**
+     * 从连接池中获取到一个数据库连接
+     */
     Connection connection = jdbcPool.getJdbcConnection();
 
     @Override
-    public boolean insertGame(String date, String host_team, String guest_team, String price) {
+    public boolean insertGame(String date, String host_team, String guest_team, int price) {
         boolean judge = false;
         String sql="select date,host_team,guest_team,price from game where date=? and host_team=? and guest_team = ? and price = ?";
         try {
@@ -28,9 +32,10 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.setString(1,date);
             preparedStatement.setString(2,host_team);
             preparedStatement.setString(3,guest_team);
-            preparedStatement.setString(4,price);
+            preparedStatement.setInt(4,price);
             res=preparedStatement.executeQuery();
-            String sql1 = "insert into game(date ,host_team,guest_team,price) values(\"" + date + "\",\"" + host_team + "\",\"" + guest_team +"\",\"" + price +"\")";
+            String sql1 = "insert into game(date ,host_team,guest_team,price) " +
+                    "values(\""+date+"\",\""+host_team+"\",\""+guest_team+"\",\""+price+"\")";
             if(res.next()) {
                 judge = false;
             }else {
@@ -46,10 +51,10 @@ public class GameDaoImpl implements GameDao {
     }
 
     @Override
-    public boolean updateGame(String date, String host_team, String guest_team, String price) {
+    public boolean updateGame(String date, String host_team, String guest_team, int price) {
         boolean judge = false;
         String sql = "select date from game where date =?";
-        String sql1 = "update game set host_team =\"" + host_team + "\",guest_team =\"" + guest_team +"\",price=\"" + price +"\" where date =\"" + date + "\"";
+        String sql1 = "update game set host_team =\""+host_team+"\",guest_team =\""+guest_team+"\",price=\""+price+"\" where date =\""+date+"\"";
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,date);
@@ -76,7 +81,7 @@ public class GameDaoImpl implements GameDao {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, date);
             res = preparedStatement.executeQuery();
-            String sql1 = "delete from game where date =\"" + date + "\"";
+            String sql1 = "delete from game where date =\""+date+"\"";
             if (res.next()) {
                 preparedStatement.executeUpdate(sql1);
                 judge = true;
@@ -90,8 +95,6 @@ public class GameDaoImpl implements GameDao {
         }
         return judge;
     }
-
-    public  Vector rowData, columnName;
 
     public void queryAllGame(){
         String sql = "select * from game";
@@ -127,7 +130,6 @@ public class GameDaoImpl implements GameDao {
             preparedStatement.setString(2,text);
             res = preparedStatement.executeQuery();
             ResultSetMetaData data = res.getMetaData();
-            //System.out.println("hello");
 
             columnName = new Vector();
             //获取列名

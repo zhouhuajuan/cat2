@@ -2,8 +2,10 @@ package com.zhj.event.view;
 
 import com.zhj.event.controller.GameController;
 import com.zhj.event.controller.OrderController;
+import com.zhj.event.controller.UserController;
 import com.zhj.event.dao.impl.GameDaoImpl;
 import com.zhj.event.dao.impl.OrderDaoImpl;
+import com.zhj.event.dao.impl.UserDaoImpl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -24,8 +26,10 @@ public class HomePage implements ActionListener {
     private Vector columnNames = new Vector();
     GameDaoImpl gameDaoImpl = new GameDaoImpl();
     OrderDaoImpl orderDapImpl = new OrderDaoImpl();
+    UserDaoImpl userDaoImpl = new UserDaoImpl();
     GameController gameController = new GameController();
     OrderController orderController = new OrderController();
+    UserController userController = new UserController();
 
     public JButton myCenter = new JButton("个人中心");
     public JButton myOrders = new JButton("我的订单");
@@ -35,6 +39,7 @@ public class HomePage implements ActionListener {
     public JButton reserve = new JButton("预定");
     public static String name;
     public static int userId;
+    public int balance;
 
     public HomePage() {
         Font font = new Font("宋体", Font.BOLD, 12);
@@ -123,6 +128,7 @@ public class HomePage implements ActionListener {
             closeThis();
             new MyOrders();
         }else if(e.getSource() == myWallet){
+            MyWallet.name = name;
             closeThis();
             new MyWallet();
         }else if(e.getSource() == reserve){
@@ -145,13 +151,25 @@ public class HomePage implements ActionListener {
         int result = orderController.getUserIdByName(name);
         if(result == 1) {
             userId = OrderDaoImpl.userId;
-            System.out.println(userId);
-            Boolean result1 = orderController.reserve(userId, gameId,date,hostTeam,guestTeam,price);
-            if (result1 == true) {
-                JOptionPane.showMessageDialog(null, "预定成功！");
-            } else {
-                JOptionPane.showMessageDialog(null, "该订单已存在！");
+            Boolean result1 = userController.getBalanceByUserId(userId);
+            if(result1){
+                balance =userDaoImpl.balance;
+                if(balance>=price) {
+                    Boolean result2 = orderController.reserve(userId, gameId, date, hostTeam, guestTeam, price);
+                    if (result2 == true) {
+                        JOptionPane.showMessageDialog(null, "预定成功！");
+                        int total = balance-price;
+                        userController.deductMoney(userId,total);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "该订单已存在！");
+                    }
+                }else {
+                    JOptionPane.showMessageDialog(null, "余额不足，无法预定该赛事！");
+                }
+            }else {
+                JOptionPane.showMessageDialog(null, "出故障啦！");
             }
+
         }else {
             JOptionPane.showMessageDialog(null, "预定失败！");
         }

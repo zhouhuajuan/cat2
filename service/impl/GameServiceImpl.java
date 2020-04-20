@@ -5,7 +5,10 @@ import com.zhj.event.dao.impl.GameDaoImpl;
 import com.zhj.event.service.GameService;
 
 public class GameServiceImpl implements GameService {
-    //实例化一个GameDao对象
+
+    /**
+     * 实例化一个GameDao对象
+     */
     GameDao gameDao = new GameDaoImpl();
 
     /**
@@ -17,7 +20,7 @@ public class GameServiceImpl implements GameService {
      * @return 返回一个Boolean结果
      */
     @Override
-    public boolean add(String date, String host_team,String guest_team,String price) {
+    public boolean add(String date, String host_team,String guest_team,int price) {
         Boolean result = gameDao.insertGame(date,host_team,guest_team,price);
         return result;
     }
@@ -30,7 +33,7 @@ public class GameServiceImpl implements GameService {
      * @param price 价格
      * @return 返回一个Boolean结果
      */
-    public boolean revise(String date, String host_team,String guest_team,String price) {
+    public boolean revise(String date, String host_team,String guest_team,int price) {
         Boolean result = gameDao.updateGame(date,host_team,guest_team,price);
         return result;
     }

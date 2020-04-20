@@ -97,7 +97,8 @@ public class ReviseGame implements ActionListener {
         if (datetext.getText() == null || datetext.getText().trim().length() <= 0) {
             JOptionPane.showMessageDialog(null, "输入框为空，请重新输入！");
         }else {
-            Boolean result = gameController.revise(datetext.getText(), hosttext.getText(),guesttext.getText(),pricetext.getText());
+            int price = Integer.parseInt(pricetext.getText());
+            Boolean result = gameController.revise(datetext.getText(), hosttext.getText(),guesttext.getText(),price);
             if(result){
                 JOptionPane.showMessageDialog(null, "修改赛事成功！");
             }else {

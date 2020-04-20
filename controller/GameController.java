@@ -5,7 +5,9 @@ import com.zhj.event.service.impl.GameServiceImpl;
 
 public class GameController {
 
-    //实例化一个GameService对象
+    /**
+     * 实例化一个GameService对象
+     */
     GameService gameService = new GameServiceImpl();
 
     /**
@@ -16,7 +18,7 @@ public class GameController {
      * @param price 价格
      * @return 返回一个Boolean结果
      */
-    public Boolean add(String date, String host_team,String guest_team,String price){
+    public Boolean add(String date, String host_team,String guest_team,int price){
         Boolean result = gameService.add(date,host_team,guest_team,price);
         return result;
     }
@@ -29,7 +31,7 @@ public class GameController {
      * @param price 价格
      * @return 返回一个Boolean结果
      */
-    public Boolean revise(String date, String host_team,String guest_team,String price) {
+    public Boolean revise(String date, String host_team,String guest_team,int price) {
         Boolean result = gameService.revise(date,host_team,guest_team,price);
         return result;
     }

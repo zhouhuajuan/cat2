@@ -6,6 +6,9 @@ import com.zhj.event.service.OrderService;
 
 public class OrderServiceImpl implements OrderService {
 
+    /**
+     * 实例化一个OrderDao对象
+     */
     OrderDao orderDao = new OrderDaoImpl();
 
     /**

@@ -1,7 +1,5 @@
 package com.zhj.event.service;
 
-import java.util.Vector;
-
 public interface GameService {
     /**
      * 添加赛事
@@ -11,7 +9,7 @@ public interface GameService {
      * @param price 价格
      * @return 返回一个boolean结果
      */
-    boolean add(String date, String host_team,String guest_team,String price);
+    boolean add(String date, String host_team,String guest_team,int price);
 
     /**
      * 修改赛事
@@ -21,7 +19,7 @@ public interface GameService {
      * @param price 价格
      * @return 返回一个boolean结果
      */
-    boolean revise(String date,String host_team,String guest_team,String price);
+    boolean revise(String date,String host_team,String guest_team,int price);
 
     /**
      * 删除赛事

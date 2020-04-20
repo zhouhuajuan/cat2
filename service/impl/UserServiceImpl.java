@@ -5,7 +5,10 @@ import com.zhj.event.dao.impl.UserDaoImpl;
 import com.zhj.event.service.UserService;
 
 public class UserServiceImpl implements UserService {
-    //实例化一个持久层对象
+
+    /**
+     * 实例化一个持久层对象
+     */
     UserDao userDao =new UserDaoImpl();
 
     /**
@@ -41,7 +44,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean revise(String name, String password, String newpassword) {
-        Boolean result = userDao.changePassword(name, password, newpassword);
+        Boolean result = null;
+        try {
+            result = userDao.changePassword(name, password, newpassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
@@ -54,6 +62,52 @@ public class UserServiceImpl implements UserService {
     @Override
     public int login1(String name, String password) {
         int result = userDao.compareUserByPassword1(name,password);
+        return result;
+    }
+
+    /**
+     *通过账号获得用户的id
+     * @param name 账号
+     * @return int
+     */
+    @Override
+    public int getUserIdByName(String name) {
+        int result = userDao.getUserIdByName(name);
+        return result;
+    }
+
+    /**
+     * 通过用户的id获得余额
+     * @param userId 用户id
+     * @return boolean
+     */
+    @Override
+    public boolean getBalanceByUserId(int userId) {
+        Boolean result = userDao.getBalanceByUserId(userId);
+        return result;
+    }
+
+    /**
+     * 充值
+     * @param userId 用户id
+     * @param balance 余额
+     * @return boolean
+     */
+    @Override
+    public boolean chargeMoney(int userId, int balance) {
+        Boolean result = userDao.chargeMoney(userId,balance);
+        return result;
+    }
+
+    /**
+     * 扣费
+     * @param userId 用户id
+     * @param balance 余额
+     * @return boolean
+     */
+    @Override
+    public boolean deductMoney(int userId, int balance) {
+        Boolean result =userDao.deductMoney(userId,balance);
         return result;
     }
 }

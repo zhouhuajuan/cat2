@@ -1,11 +1,13 @@
 package com.zhj.event.view;
 
 import com.zhj.event.controller.UserController;
+import com.zhj.event.util.MD5Util;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @author 大娟
@@ -17,7 +19,7 @@ import java.awt.event.ActionListener;
 
 public class Login extends JFrame implements ActionListener {
     private JPanel panel = new JPanel();
-    private static JFrame frame = new JFrame();
+    private JFrame frame = new JFrame();
     private JLabel label = new JLabel("英雄联盟");
     private JLabel namelab = new JLabel("账    号");
     private JLabel passlab = new JLabel("密    码");
@@ -25,8 +27,9 @@ public class Login extends JFrame implements ActionListener {
     private JPasswordField passtext = new JPasswordField();
     private ButtonGroup buttonGroup1 = new ButtonGroup();
     private ButtonGroup buttonGroup2 = new ButtonGroup();
+    private int failCount = 0;
+
     String text;
-    //实例化一个UserController对象
     UserController userController = new UserController();
 
     //创建登录、注册和单选按钮
@@ -91,7 +94,7 @@ public class Login extends JFrame implements ActionListener {
         new Login();
     }
 
-    public static void closeThis() {
+    public void closeThis() {
         frame.dispose();
     }
 
@@ -111,18 +114,24 @@ public class Login extends JFrame implements ActionListener {
 
     public void login(){
         if(text.equals("用户")){
-           int result = userController.login(nametext.getText(),passtext.getText());
+            int result = userController.login(nametext.getText(),passtext.getText());
             if(result == 1){
                 JOptionPane.showMessageDialog(null, "登陆成功！");
-                //name = nametext.getText();
                 HomePage.name = nametext.getText();
                 SearchGame.name = nametext.getText();
                 closeThis();
                 new HomePage();
             }else if(result == 2){
+                failCount++;
                 JOptionPane.showMessageDialog(null, "密码错误！");
             }else if(result == 0){
                 JOptionPane.showMessageDialog(null, "用户名不存在！");
+            }
+
+            if(failCount >=3){
+                JOptionPane.showMessageDialog(Login.this, "登陆失败三次,需进行图形验证!");
+                closeThis();
+                new CheckCode();
             }
         } else if (text.equals("管理员")) {
             int result = userController.login1(nametext.getText(),passtext.getText());

@@ -5,6 +5,9 @@ import com.zhj.event.service.impl.OrderServiceImpl;
 
 public class OrderController implements OrderService{
 
+    /**
+     * 实例化一个OrderService对象
+     */
     OrderService orderService = new OrderServiceImpl();
 
     /**

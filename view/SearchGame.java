@@ -2,8 +2,10 @@ package com.zhj.event.view;
 
 import com.zhj.event.controller.GameController;
 import com.zhj.event.controller.OrderController;
+import com.zhj.event.controller.UserController;
 import com.zhj.event.dao.impl.GameDaoImpl;
 import com.zhj.event.dao.impl.OrderDaoImpl;
+import com.zhj.event.dao.impl.UserDaoImpl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 public class SearchGame implements ActionListener {
     private JFrame frame = new JFrame();
@@ -21,16 +22,19 @@ public class SearchGame implements ActionListener {
     private JPanel panel1 = new JPanel();
     private JPanel panel2 = new JPanel();
     private JTable table = new JTable();
-    public static String name;
     GameDaoImpl gameDaoImpl = new GameDaoImpl();
     GameController gameController = new GameController();
     OrderDaoImpl orderDapImpl = new OrderDaoImpl();
     OrderController orderController = new OrderController();
+    UserDaoImpl userDaoImpl = new UserDaoImpl();
+    UserController userController = new UserController();
 
     private JTextField jTextField = new JTextField();
     public JButton search = new JButton("搜索");
     public JButton back = new JButton("返回主页");
     public JButton reserve = new JButton("预定");
+    public static String name;
+    public int balance;
 
     public SearchGame(){
         Font font = new Font("宋体", Font.BOLD, 12);
@@ -118,12 +122,23 @@ public class SearchGame implements ActionListener {
         int result = orderController.getUserIdByName(name);
         if(result == 1) {
             int userId = OrderDaoImpl.userId;
-            System.out.println(userId);
-            Boolean result1 = orderController.reserve(userId, gameId,date,hostTeam,guestTeam,price);
-            if (result1 == true) {
-                JOptionPane.showMessageDialog(null, "预定成功！");
-            } else {
-                JOptionPane.showMessageDialog(null, "该订单已存在！");
+            Boolean result1 = userController.getBalanceByUserId(userId);
+            if(result1){
+                balance = userDaoImpl.balance;
+                if(balance>=price){
+                    Boolean result2 = orderController.reserve(userId, gameId,date,hostTeam,guestTeam,price);
+                    if (result2 == true) {
+                        JOptionPane.showMessageDialog(null, "预定成功！");
+                        int total = balance-price;
+                        userController.deductMoney(userId,total);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "该订单已存在！");
+                    }
+                }else {
+                    JOptionPane.showMessageDialog(null, "余额不足，无法预定该赛事！");
+                }
+            }else {
+                JOptionPane.showMessageDialog(null, "出故障啦！");
             }
         }else {
             JOptionPane.showMessageDialog(null, "预定失败！");

@@ -5,6 +5,9 @@ import com.zhj.event.service.impl.MessageServiceImpl;
 
 public class MessageController {
 
+    /**
+     * 实例化一个MessageService对象
+     */
     MessageService messageService = new MessageServiceImpl();
 
     /**
