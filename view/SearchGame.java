@@ -15,6 +15,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * @program: cat
+ * @description: 搜索赛事类
+ * @author: 周华娟
+ * @create: 2020-04-20 16:22
+ **/
+
 public class SearchGame implements ActionListener {
     private JFrame frame = new JFrame();
     private JLabel label = new JLabel("请输入要搜索的战队：");
@@ -24,7 +31,6 @@ public class SearchGame implements ActionListener {
     private JTable table = new JTable();
     GameDaoImpl gameDaoImpl = new GameDaoImpl();
     GameController gameController = new GameController();
-    OrderDaoImpl orderDapImpl = new OrderDaoImpl();
     OrderController orderController = new OrderController();
     UserDaoImpl userDaoImpl = new UserDaoImpl();
     UserController userController = new UserController();
@@ -77,6 +83,9 @@ public class SearchGame implements ActionListener {
         }
     }
 
+    /**
+     * 点击搜索按钮触发search方法
+     */
     public void search(){
         Boolean result = gameController.search(jTextField.getText());
         if (result) {
@@ -84,6 +93,7 @@ public class SearchGame implements ActionListener {
             DefaultTableModel model = new DefaultTableModel(gameDaoImpl.rowData, gameDaoImpl.columnName);
             table.setModel(model);
             table.setBorder(new LineBorder(new Color(0, 0, 0)));
+
             // 设置表格内容颜色
             table.setForeground(Color.BLACK);
             table.setFont(new Font(null, Font.PLAIN, 14));
@@ -100,12 +110,14 @@ public class SearchGame implements ActionListener {
             frame.add(panel1, BorderLayout.CENTER);
             //刷新面板
             panel1.revalidate();
-            System.out.println("world");
         }else {
             JOptionPane.showMessageDialog(null, "对不起，未找到相关内容！");
         }
     }
 
+    /**
+     * 点击预定按钮触发reserve方法
+     */
     public void reserve(){
         //获取你选中的行号（记录）
         int count=table.getSelectedRow();
@@ -149,6 +161,9 @@ public class SearchGame implements ActionListener {
         new SearchGame();
     }
 
+    /**
+     * 封装关闭窗口的方法
+     */
     public void closeThis() {
         frame.dispose();
     }

@@ -76,16 +76,16 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean changePassword(String name, String password, String newpassword){
+    public boolean changePassword(String name, String password, String newPassword){
         MD5Util md5Util = new MD5Util();
-        String  newpassword1 = null;
+        String  newPassword1 = null;
         try {
-            newpassword1 = md5Util.md5(newpassword);
+            newPassword1 = md5Util.md5(newPassword);
         } catch (Exception e) {
             e.printStackTrace();
         }
         String sql = "select password from user where name =? ";
-        String sql1 = "update user set password=\"" + newpassword1 + "\"where name =\"" + name + "\"";
+        String sql1 = "update user set password=\"" + newPassword1 + "\"where name =\"" + name + "\"";
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, name);

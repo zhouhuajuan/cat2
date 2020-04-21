@@ -35,13 +35,13 @@ public class UserController {
      * 修改密码
      * @param name 账号
      * @param password 密码
-     * @param newpassword 新密码
+     * @param newPassword 新密码
      * @return 返回一个Boolean结果
      */
-    public boolean revise(String name, String password, String newpassword) {
-        Boolean result = null;
+    public boolean revise(String name, String password, String newPassword) {
+        boolean result = false;
         try {
-            result = userService.revise(name,password,newpassword);
+            result = userService.revise(name,password,newPassword);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,7 +75,7 @@ public class UserController {
      * @return boolean
      */
     public boolean getBalanceByUserId(int userId) {
-        Boolean result = userService.getBalanceByUserId(userId);
+        boolean result = userService.getBalanceByUserId(userId);
         return result;
     }
 
@@ -86,7 +86,7 @@ public class UserController {
      * @return boolean
      */
     public boolean chargeMoney(int userId, int balance) {
-        Boolean result = userService.chargeMoney(userId,balance);
+        boolean result = userService.chargeMoney(userId,balance);
         return result;
     }
 
@@ -97,7 +97,7 @@ public class UserController {
      * @return boolean
      */
     public boolean deductMoney(int userId, int balance) {
-        Boolean result = userService.deductMoney(userId,balance);
+        boolean result = userService.deductMoney(userId,balance);
         return result;
     }
 }

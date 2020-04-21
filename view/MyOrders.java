@@ -14,29 +14,45 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+/**
+ * @program: cat
+ * @description: 我的订单类
+ * @author: 周华娟
+ * @create: 2020-04-20 16:22
+ **/
+
 public class MyOrders implements ActionListener {
-    private JFrame frame = new JFrame();
-    private JLabel label = new JLabel("你的订单列表空空如也，快去预定赛事吧！");
-    private JPanel panel = new JPanel();
-    private JPanel panel1 = new JPanel();
-    private JPanel panel3 = new JPanel();
-    private JTable table = new JTable();
-    private Vector columnNames = new Vector();
+    JFrame frame = new JFrame();
+    JLabel label = new JLabel("你的订单列表空空如也，快去预定赛事吧！");
+    JPanel panel = new JPanel();
+    JPanel panel1 = new JPanel();
+    JPanel panel3 = new JPanel();
+    JTable table = new JTable();
+    Vector columnNames = new Vector();
+
     OrderDaoImpl orderDaoImpl = new OrderDaoImpl();
     OrderController orderController = new OrderController();
     UserDaoImpl userDaoImpl = new UserDaoImpl();
     UserController userController = new UserController();
 
-    public JButton cancel = new JButton("取消");
-    public JButton back = new JButton("返回主页");
-    public static String name;
-    public int userId;
-    public int balance;
+    JButton cancel = new JButton("取消");
+    JButton back = new JButton("返回主页");
+
+    /**
+     * 定义一个静态的String类型成员变量
+     */
+    static String name;
+
+
+    /**
+     * 定义全局变量userId和balance
+     */
+    int userId;
+    int balance;
 
     public MyOrders(){
         Font font = new Font("宋体", Font.BOLD, 12);
         Font font1 = new Font("宋体",Font.BOLD,16);
-        frame.setTitle("我的订单");
 
         cancel.setFont(font);
         back.setFont(font);
@@ -51,11 +67,11 @@ public class MyOrders implements ActionListener {
         columnNames.add(3,"guest_team");
         columnNames.add(4,"price");
 
+        //调用getUserIdByName()方法获得userId
         int result = orderController.getUserIdByName(name);
-        System.out.println(result);
         if(result == 1){
             userId = orderDaoImpl.userId;
-            System.out.println(userId);
+            //调用queryOrder()方法获得行数据的集合并填充到表格里
             Boolean result1 = orderDaoImpl.queryOrder(userId);
             if (result1){
                 DefaultTableModel model = new DefaultTableModel(orderDaoImpl.rowData,columnNames);
@@ -65,8 +81,9 @@ public class MyOrders implements ActionListener {
                 frame.add(panel3,BorderLayout.NORTH);
             }
         }
-        table.setBorder(new LineBorder(new Color(0, 0, 0)));
+
         // 设置表格内容颜色
+        table.setBorder(new LineBorder(new Color(0, 0, 0)));
         table.setForeground(Color.BLACK);
         table.setFont(new Font(null, Font.PLAIN, 14));
         table.setSelectionForeground(Color.DARK_GRAY);
@@ -78,14 +95,17 @@ public class MyOrders implements ActionListener {
         scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.add(scrollPane);
 
+        //设置panel1使用流布局管理器，使组件中间对齐
         panel1.setLayout(new FlowLayout(FlowLayout.CENTER));
         cancel.setPreferredSize(new Dimension(80,25));
         panel1.add(cancel);
         panel1.add(back);
 
+        //设置frame使用边界布局管理器
         frame.setLayout(new BorderLayout());
         frame.add(panel,BorderLayout.NORTH);
         frame.add(panel1,BorderLayout.SOUTH);
+        frame.setTitle("我的订单");
         frame.setSize(600, 500);
         frame.setVisible(true);
     }
@@ -94,10 +114,17 @@ public class MyOrders implements ActionListener {
         new MyOrders();
     }
 
+    /**
+     * 封装关闭窗口的方法
+     */
     public void closeThis() {
         frame.dispose();
     }
 
+    /**
+     * 重写actionPerformed()方法
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == back){
@@ -108,13 +135,18 @@ public class MyOrders implements ActionListener {
         }
     }
 
+    //点击取消按钮的处理事件
     public void cancel(){
         //获取你选中的行号（记录）
         int count=table.getSelectedRow();
+
         //读取你获取行号的某一列的值（也就是字段）
         String gameId1= table.getValueAt(count, 0).toString();
+        //将gameId1强制转化为int型
         int gameId = Integer.parseInt(gameId1);
+
         String price1 = table.getValueAt(count,4).toString();
+        //将price1强制转化为int型
         int price = Integer.parseInt(price1);
         Boolean result = orderController.cancelOrder(userId,gameId);
         if(result){

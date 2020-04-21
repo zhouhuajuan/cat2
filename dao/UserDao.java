@@ -22,10 +22,10 @@ public interface UserDao {
      *修改密码
      * @param name 账号
      * @param password 密码
-     * @param newpassword 新密码
+     * @param newPassword 新密码
      * @return 返回一个Boolean结果
      */
-    boolean changePassword(String name, String password, String newpassword) throws Exception;
+    boolean changePassword(String name, String password, String newPassword) throws Exception;
 
     /**
      * 以管理员的身份登陆系统

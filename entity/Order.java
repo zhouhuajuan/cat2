@@ -3,11 +3,46 @@ package com.zhj.event.entity;
 import java.sql.Timestamp;
 
 public class Order {
-    private Integer id;
-    private Timestamp createTime;
-    private Timestamp cancelTime;
-    private Integer userId;
     private Integer gameId;
+    private String date;
+    private String hostTeam;
+    private String guestTeam;
+    private int price;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    private Integer id;
+    private Integer userId;
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getGuestTeam() {
+        return guestTeam;
+    }
+
+    public void setGuestTeam(String guestTeam) {
+        this.guestTeam = guestTeam;
+    }
+
+    public String getHostTeam() {
+        return hostTeam;
+    }
+
+    public void setHostTeam(String hostTeam) {
+        this.hostTeam = hostTeam;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public Integer getId() {
         return id;
@@ -15,22 +50,6 @@ public class Order {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public Timestamp getCancelTime() {
-        return cancelTime;
-    }
-
-    public void setCancelTime(Timestamp cancelTime) {
-        this.cancelTime = cancelTime;
     }
 
     public Integer getUserId() {
@@ -41,10 +60,6 @@ public class Order {
         this.userId = userId;
     }
 
-    public Order(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
     public Integer getGameId() {
         return gameId;
     }
@@ -53,8 +68,7 @@ public class Order {
         this.gameId = gameId;
     }
 
-    public Order(Timestamp createTime,Integer userId,Integer gameId){
-        this.createTime = createTime;
+    public Order(Integer userId,Integer gameId){
         this.userId = userId;
         this.gameId = gameId;
     }

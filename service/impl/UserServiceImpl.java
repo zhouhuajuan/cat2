@@ -39,14 +39,14 @@ public class UserServiceImpl implements UserService {
      * 修改密码
      * @param name 账号
      * @param password 密码
-     * @param newpassword 新密码
+     * @param newPassword 新密码
      * @return 返回一个Boolean结果
      */
     @Override
-    public boolean revise(String name, String password, String newpassword) {
+    public boolean revise(String name, String password, String newPassword) {
         Boolean result = null;
         try {
-            result = userDao.changePassword(name, password, newpassword);
+            result = userDao.changePassword(name, password, newPassword);
         } catch (Exception e) {
             e.printStackTrace();
         }

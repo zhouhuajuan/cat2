@@ -11,43 +11,56 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+/**
+ * @program: cat
+ * @description: 管理员登陆的主页类
+ * @author: 周华娟
+ * @create: 2020-04-20 16:22
+ **/
+
 public class HomePage2 implements ActionListener {
 
-    private JPanel panel = new JPanel();
-    private JPanel panel1 = new JPanel();
-    private JTable table;
-    private JFrame frame = new JFrame();
-    private Vector columnNames = new Vector();
+    JPanel panel = new JPanel();
+    JPanel panel1 = new JPanel();
+    JTable table;
+    JFrame frame = new JFrame();
+    /**
+     * 定义一个列名的Vector集合
+     */
+    Vector columnNames = new Vector();
     GameDaoImpl gameDaoImpl = new GameDaoImpl();
 
-    public JButton add = new JButton("添加");
-    public JButton revise = new JButton("修改");
-    public JButton delete = new JButton("删除");
+    JButton add = new JButton("添加");
+    JButton revise = new JButton("修改");
+    JButton delete = new JButton("删除");
 
     public HomePage2() {
         Font font = new Font("宋体", Font.BOLD, 12);
-        Font font1 = new Font("宋体", Font.BOLD, 16);
-        frame.setTitle("欢迎来到英雄联盟职业联赛");
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
+        //设置panel使用流布局管理器，使组件左对齐
+        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel.add(add);
         panel.add(revise);
         panel.add(delete);
 
+        //设置按钮的文本风格
         add.setFont(font);
         revise.setFont(font);
         delete.setFont(font);
 
+        //为按钮设置监听事件
         add.addActionListener(this);
         revise.addActionListener(this);
         delete.addActionListener(this);
 
+        ////为columnNames集合添加元素
         columnNames.add(0,"id");
         columnNames.add(1,"date");
         columnNames.add(2,"host_team");
         columnNames.add(3,"guest_team");
         columnNames.add(4,"price");
 
+        //调用queryAllGame()方法获得行数据的集合并填充到表格里
         gameDaoImpl.queryAllGame();
         DefaultTableModel defaultTableModel = new DefaultTableModel(gameDaoImpl.rowData,columnNames);
         table = new JTable(defaultTableModel);
@@ -66,9 +79,11 @@ public class HomePage2 implements ActionListener {
         panel1.add(scrollPane);
         panel1.setBorder(new EmptyBorder(10, 10, 10, 10));
 
+        //设置frame使用边界布局管理器
         frame.setLayout(new BorderLayout());
         frame.add(panel,BorderLayout.SOUTH);
         frame.add(panel1,BorderLayout.NORTH);
+        frame.setTitle("欢迎来到英雄联盟职业联赛");
         frame.setSize(600, 500);
         frame.setVisible(true);
         panel1.revalidate();
@@ -78,10 +93,17 @@ public class HomePage2 implements ActionListener {
         new HomePage2();
     }
 
+    /**
+     * 封装关闭窗口的方法
+     */
     public void closeThis() {
         frame.dispose();
     }
 
+    /**
+     * 重写actionPerformed()方法
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == add){
