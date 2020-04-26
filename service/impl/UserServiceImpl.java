@@ -19,8 +19,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean register(String name, String password) {
-        Boolean result = userDao.insertUser(name,password);
-        return result;
+        return userDao.insertUser(name,password);
     }
 
     /**
@@ -31,8 +30,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int login(String name, String password) {
-        int result = userDao.compareUserByPassword(name, password);
-        return result;
+        return userDao.compareUserByPassword(name, password);
     }
 
     /**
@@ -40,17 +38,16 @@ public class UserServiceImpl implements UserService {
      * @param name 账号
      * @param password 密码
      * @param newPassword 新密码
-     * @return 返回一个Boolean结果
+     * @return boolean
      */
     @Override
     public boolean revise(String name, String password, String newPassword) {
-        Boolean result = null;
         try {
-            result = userDao.changePassword(name, password, newPassword);
+            return userDao.changePassword(name, password, newPassword);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return false;
     }
 
     /**
@@ -61,8 +58,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int login1(String name, String password) {
-        int result = userDao.compareUserByPassword1(name,password);
-        return result;
+        return userDao.compareUserByPassword1(name,password);
     }
 
     /**
@@ -72,8 +68,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int getUserIdByName(String name) {
-        int result = userDao.getUserIdByName(name);
-        return result;
+        return userDao.getUserIdByName(name);
     }
 
     /**
@@ -83,8 +78,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean getBalanceByUserId(int userId) {
-        Boolean result = userDao.getBalanceByUserId(userId);
-        return result;
+        return userDao.getBalanceByUserId(userId);
     }
 
     /**
@@ -95,8 +89,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean chargeMoney(int userId, int balance) {
-        Boolean result = userDao.chargeMoney(userId,balance);
-        return result;
+        return userDao.chargeMoney(userId,balance);
     }
 
     /**
@@ -107,7 +100,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean deductMoney(int userId, int balance) {
-        Boolean result =userDao.deductMoney(userId,balance);
-        return result;
+        return userDao.deductMoney(userId,balance);
     }
 }

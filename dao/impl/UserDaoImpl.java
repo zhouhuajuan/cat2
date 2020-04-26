@@ -56,7 +56,6 @@ public class UserDaoImpl implements UserDao {
                 String pa = res.getString(1);
                 MD5Util md5Util = new MD5Util();
                 String  password1 = md5Util.md5(password);
-                System.out.println(pa + " " + password1);
                 if (pa.equals(password1)) {
                     judge=1;
                 } else {
@@ -114,7 +113,6 @@ public class UserDaoImpl implements UserDao {
                 String pa = res.getString(1);
                 MD5Util md5Util = new MD5Util();
                 String  password1 = md5Util.md5(password);
-                System.out.println(pa + " " + password1);
                 if (pa.equals(password1)) {
                     judge=1;
                 } else {

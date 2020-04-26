@@ -62,12 +62,12 @@ public class MyCenters implements ActionListener {
         //调用getUserIdByName获得userId
         int result = messageDaoImpl.getUserIdByName(name);
         if(result == 1) {
-            userId = messageDaoImpl.userId;
-            Boolean result1 = messageDaoImpl.getMessageByUserId(userId);
+            userId = MessageDaoImpl.userId;
+            boolean result1 = messageDaoImpl.getMessageByUserId(userId);
             if(result1){
                 //获得昵称和个性签名
-                name1 = messageDaoImpl.name;
-                signature = messageDaoImpl.signature;
+                name1 = MessageDaoImpl.name;
+                signature = MessageDaoImpl.signature;
             }
         }else {
             JOptionPane.showMessageDialog(null, "出故障啦！");
@@ -184,7 +184,7 @@ public class MyCenters implements ActionListener {
 
     //点击保存按钮的处理事件
     public void affirm(){
-        Boolean result2 =messageController.insertMessage(userId,nameText.getText(),text,signatureText.getText());
+        boolean result2 =messageController.insertMessage(userId,nameText.getText(),text,signatureText.getText());
         if(result2){
             JOptionPane.showMessageDialog(null, "保存成功！");
         }else{
@@ -201,7 +201,7 @@ public class MyCenters implements ActionListener {
         if(!matcher.matches()) {
             JOptionPane.showMessageDialog(null, "新密码的输入格式不符合！");
         }else {
-            Boolean result = userController.revise(nameText1.getText(), passText.getText(), newPassText.getText());
+            boolean result = userController.revise(nameText1.getText(), passText.getText(), newPassText.getText());
             if (result) {
                 JOptionPane.showMessageDialog(null, "密码修改成功！");
             } else {

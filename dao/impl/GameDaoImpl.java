@@ -11,7 +11,7 @@ public class GameDaoImpl implements GameDao {
 
     PreparedStatement preparedStatement = null;
     ResultSet res = null;
-    public  Vector rowData, columnName;
+    public Vector rowData, columnName;
 
     /**
      * 获取到数据库连接池的单例对象
@@ -85,8 +85,6 @@ public class GameDaoImpl implements GameDao {
             if (res.next()) {
                 preparedStatement.executeUpdate(sql1);
                 judge = true;
-            } else {
-                judge = false;
             }
             //最后释放连接，将资源交给连接池进行回收
             jdbcPool.releaseJdbcConnection(res,preparedStatement,connection);

@@ -16,8 +16,7 @@ public class UserController {
      * @return 返回一个int结果
      */
     public int login(String name,String password){
-        int result  = userService.login(name,password);
-        return result;
+        return userService.login(name,password);
     }
 
     /**
@@ -27,8 +26,7 @@ public class UserController {
      * @return 返回一个Boolean结果
      */
     public boolean register(String name, String password) {
-        Boolean result = userService.register(name,password);
-        return result;
+        return userService.register(name,password);
     }
 
     /**
@@ -55,8 +53,7 @@ public class UserController {
      * @return 返回一个int结果
      */
     public int login1(String name, String password) {
-        int result = userService.login1(name,password);
-        return result;
+        return userService.login1(name,password);
     }
 
     /**
@@ -65,8 +62,7 @@ public class UserController {
      * @return int
      */
     public int getUserIdByName(String name) {
-        int result = userService.getUserIdByName(name);
-        return result;
+        return userService.getUserIdByName(name);
     }
 
     /**
@@ -75,8 +71,7 @@ public class UserController {
      * @return boolean
      */
     public boolean getBalanceByUserId(int userId) {
-        boolean result = userService.getBalanceByUserId(userId);
-        return result;
+        return userService.getBalanceByUserId(userId);
     }
 
     /**
@@ -86,8 +81,7 @@ public class UserController {
      * @return boolean
      */
     public boolean chargeMoney(int userId, int balance) {
-        boolean result = userService.chargeMoney(userId,balance);
-        return result;
+        return userService.chargeMoney(userId,balance);
     }
 
     /**
@@ -97,7 +91,6 @@ public class UserController {
      * @return boolean
      */
     public boolean deductMoney(int userId, int balance) {
-        boolean result = userService.deductMoney(userId,balance);
-        return result;
+        return userService.deductMoney(userId,balance);
     }
 }

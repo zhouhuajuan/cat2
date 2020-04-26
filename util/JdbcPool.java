@@ -8,9 +8,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class JdbcPool {
     //使用静态内部类实现单例模式
     private JdbcPool(){};
+
     private static class SingleJdbcPool{
         public static final JdbcPool jdbcPool = new JdbcPool();
     }
+
+    /**
+     * 获取数据库连接池的实例对象的方法
+     * @return JdbcPool.SingleJdbcPool.jdbcPool
+     */
     public static JdbcPool getJdbcPoolInstance(){
         return JdbcPool.SingleJdbcPool.jdbcPool;
     }
@@ -89,7 +95,7 @@ public class JdbcPool {
     }
 
     /**
-     *释放资源，按顺序首先释放ResultSet、Statement，然后再将使用结束的Conneection放回数据库连接池
+     *释放资源，按顺序首先释放ResultSet、Statement，然后再将使用结束的Connection放回数据库连接池
      * @param resultSet
      * @param statement
      * @param connection

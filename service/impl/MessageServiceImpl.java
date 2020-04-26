@@ -20,8 +20,7 @@ public class MessageServiceImpl implements MessageService {
      * @return boolean
      */
     @Override
-    public boolean inserMessage(int userId,String name, String sex, String signature) {
-        Boolean result = messageDao.inserMessage(userId,name,sex,signature);
-        return result;
+    public boolean insertMessage(int userId,String name, String sex, String signature) {
+        return messageDao.insertMessage(userId,name,sex,signature);
     }
 }

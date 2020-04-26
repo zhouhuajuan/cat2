@@ -21,8 +21,7 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public boolean add(String date, String host_team,String guest_team,int price) {
-        Boolean result = gameDao.insertGame(date,host_team,guest_team,price);
-        return result;
+        return gameDao.insertGame(date,host_team,guest_team,price);
     }
 
     /**
@@ -34,8 +33,7 @@ public class GameServiceImpl implements GameService {
      * @return 返回一个Boolean结果
      */
     public boolean revise(String date, String host_team,String guest_team,int price) {
-        Boolean result = gameDao.updateGame(date,host_team,guest_team,price);
-        return result;
+        return gameDao.updateGame(date,host_team,guest_team,price);
     }
 
     /**
@@ -45,8 +43,7 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public boolean delete(String date) {
-        Boolean result = gameDao.deleteGame(date);
-        return result;
+        return gameDao.deleteGame(date);
     }
 
     /**
@@ -56,7 +53,6 @@ public class GameServiceImpl implements GameService {
      */
     @Override
     public boolean search(String text) {
-        Boolean result = gameDao.queryAnyGame(text);
-        return result;
+        return gameDao.queryAnyGame(text);
     }
 }

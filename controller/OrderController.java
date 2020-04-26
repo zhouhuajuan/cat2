@@ -16,8 +16,7 @@ public class OrderController implements OrderService{
      * @return int
      */
     public int getUserIdByName(String name) {
-        int result = orderService.getUserIdByName(name);
-        return result;
+        return orderService.getUserIdByName(name);
     }
 
     /**
@@ -31,8 +30,7 @@ public class OrderController implements OrderService{
      * @return boolean
      */
     public boolean reserve(int userId, int gameId,String date, String hostTeam, String guestTeam,int price) {
-        Boolean result = orderService.reserve(userId,gameId,date,hostTeam,guestTeam,price);
-        return result;
+        return orderService.reserve(userId,gameId,date,hostTeam,guestTeam,price);
     }
 
     /**
@@ -41,8 +39,7 @@ public class OrderController implements OrderService{
      * @return boolean
      */
     public boolean queryOrder(int userId) {
-        Boolean result = orderService.queryOrder(userId);
-        return result;
+        return orderService.queryOrder(userId);
     }
 
     /**
@@ -52,7 +49,6 @@ public class OrderController implements OrderService{
      * @return boolean
      */
     public boolean cancelOrder(int userId, int gameId) {
-        Boolean result = orderService.cancelOrder(userId,gameId);
-        return result;
+        return orderService.cancelOrder(userId,gameId);
     }
 }

@@ -18,8 +18,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public int getUserIdByName(String name) {
-       int result = orderDao.getUserIdByName(name);
-       return result;
+        return orderDao.getUserIdByName(name);
     }
 
     /**
@@ -34,8 +33,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean reserve(int userId, int gameId,String date,String hostTeam,String guestTeam,int price) {
-        boolean result = orderDao.insertOrder(userId,gameId,date,hostTeam,guestTeam,price);
-        return result;
+        return orderDao.insertOrder(userId,gameId,date,hostTeam,guestTeam,price);
     }
 
     /**
@@ -45,8 +43,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean queryOrder(int userId) {
-        Boolean result = orderDao.queryOrder(userId);
-        return result;
+        return orderDao.queryOrder(userId);
     }
 
     /**
@@ -57,7 +54,6 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public boolean cancelOrder(int userId, int gameId) {
-        Boolean result = orderDao.cancelOrder(userId,gameId);
-        return result;
+        return orderDao.cancelOrder(userId,gameId);
     }
 }

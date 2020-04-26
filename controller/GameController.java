@@ -19,8 +19,7 @@ public class GameController {
      * @return 返回一个Boolean结果
      */
     public Boolean add(String date, String host_team,String guest_team,int price){
-        Boolean result = gameService.add(date,host_team,guest_team,price);
-        return result;
+        return gameService.add(date,host_team,guest_team,price);
     }
 
     /**
@@ -32,8 +31,7 @@ public class GameController {
      * @return 返回一个Boolean结果
      */
     public Boolean revise(String date, String host_team,String guest_team,int price) {
-        Boolean result = gameService.revise(date,host_team,guest_team,price);
-        return result;
+        return gameService.revise(date,host_team,guest_team,price);
     }
 
     /**
@@ -42,8 +40,7 @@ public class GameController {
      * @return 返回一个Boolean结果
      */
     public Boolean delete(String date) {
-        Boolean result = gameService.delete(date);
-        return result;
+        return gameService.delete(date);
     }
 
     /**
@@ -52,7 +49,6 @@ public class GameController {
      * @return 返回一个Boolean结果
      */
     public Boolean search(String text) {
-        Boolean result = gameService.search(text);
-        return result;
+        return gameService.search(text);
     }
 }

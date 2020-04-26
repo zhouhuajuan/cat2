@@ -120,7 +120,6 @@ public class MyWallet implements ActionListener {
     public void charge(){
         String money = (String) comboBox.getSelectedItem();
         int total = Integer.parseInt(money) + balance;
-        System.out.println(total);
         Boolean result = userController.chargeMoney(userId,total);
         if(result){
             JOptionPane.showMessageDialog(null, "充值成功！");

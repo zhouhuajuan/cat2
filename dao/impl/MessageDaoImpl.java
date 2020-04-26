@@ -45,7 +45,7 @@ public class MessageDaoImpl implements MessageDao {
     }
 
     @Override
-    public boolean inserMessage(int userId, String name, String sex, String signature) {
+    public boolean insertMessage(int userId, String name, String sex, String signature) {
         String sql = "select * from message where user_id = ?";
         String sql1 = "insert  into message(user_id,name,sex,signature) " +
                 "values (\"" + userId +"\",\"" + name +"\",\"" + sex +"\",\"" + signature +"\")";

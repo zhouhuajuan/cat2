@@ -19,7 +19,6 @@ public class MessageController {
      * @return boolean
      */
     public boolean insertMessage(int userId,String name, String sex, String signature) {
-        Boolean result = messageService.inserMessage(userId,name,sex,signature);
-        return result;
+        return messageService.insertMessage(userId,name,sex,signature);
     }
 }

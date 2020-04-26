@@ -17,7 +17,7 @@ public class CheckCode implements ActionListener {
     JFrame frame = new JFrame();
     JPanel panel = new JPanel();
     JLabel label;
-    JLabel tiplab = new JLabel("验证码这么清晰，不用刷新了叭~");
+    JLabel tipLab = new JLabel("验证码这么清晰，不用刷新了叭~");
     JTextField textField = new JTextField();
 
     JButton affirm = new JButton("确认");
@@ -31,9 +31,13 @@ public class CheckCode implements ActionListener {
         for (int i = 0; i < bytes.length; i++)
         {
             byte bit = (byte)ran.nextInt(62);
-            if (bit < 10) bytes[i] = (char)(bit + 48);
-            else if (bit < 36) bytes[i] = (char)(bit + 55);
-            else bytes[i] = (char)(61 + bit);
+            if (bit < 10) {
+                bytes[i] = (char)(bit + 48);
+            } else if (bit < 36) {
+                bytes[i] = (char)(bit + 55);
+            } else {
+                bytes[i] = (char)(61 + bit);
+            }
         }
 
         //验证码
@@ -45,7 +49,7 @@ public class CheckCode implements ActionListener {
 
         //使panel取消布局管理器设置
         panel.setLayout(null);
-        tiplab.setBounds(100,40,200,20);
+        tipLab.setBounds(100,40,200,20);
         label.setBounds(230,90,80,30);
         textField.setBounds(100,90,100,30);
         affirm.setBounds(140,180,80,25);
@@ -54,7 +58,7 @@ public class CheckCode implements ActionListener {
         affirm.addActionListener( this);
 
         //在panel上添加组件
-        panel.add(tiplab);
+        panel.add(tipLab);
         panel.add(label);
         panel.add(textField);
         panel.add(affirm);

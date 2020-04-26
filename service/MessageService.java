@@ -10,6 +10,6 @@ public interface MessageService {
      * @param signature 个性签名
      * @return boolean
      */
-    boolean inserMessage(int userId,String name, String sex, String signature);
+    boolean insertMessage(int userId,String name, String sex, String signature);
 
 }

@@ -23,7 +23,7 @@ public interface UserService {
      * @param name 账号
      * @param password 密码
      * @param newPassword 新密码
-     * @return 返回一个boolean结果
+     * @return
      */
     boolean revise(String name, String password, String newPassword) throws Exception;
 
